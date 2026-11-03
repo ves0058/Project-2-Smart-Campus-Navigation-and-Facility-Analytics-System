@@ -15,10 +15,14 @@ class CampusGraph
     void loadBuildings(const string& filename);
     void loadConnections(const string& filename);
     bool isAvalidBuilding(const string& buildingName);
+    string normalName(const string& name);
 
     
     public:
     void addEdge(const string& uName, const string& vName);
     void bfs(const string& startNode);
+    void viewBuildingsandConnection()const;
+    void generateGraphStats()const;
+    
 };
 #endif
