@@ -75,46 +75,6 @@ void CampusGraph::loadBuildings(const string& filename){
 //Creating Graphs connection logic
 //Here we will read the connection data from the bonnections.h file
 // and accourdlingy create those connections
-// void CampusGraph::loadConnections(const string& filename){
-//     ifstream file(filename);
-
-//     if(!file.is_open()){
-//         cout<<"Error :: File : "<<filename<<" can't be accessed "<<endl;
-//         return;
-//     }
-//     string line;
-//     while(getline(file, line)){
-//     stringstream ss(line);
-//     string buildingA, buildingB;
-
-//     //spiliting each line using '|' 
-//     //Here we are also making sure that before creating a building connection 
-//     // the two buildings are actually valid!
-//     if(getline(ss,buildingA,'|')&& getline(ss, buildingB)){
-//         bool validA = isAvalidBuilding(buildingA);
-//         bool validB = isAvalidBuilding(buildingB);
-//         if(validA && validB){
-//         addEdge(buildingA, buildingB);
-//         }
-//         else if( validA && !validB){
-//             cout<<"Building : "<<buildingB<<" don't exist in buildings list. Can't make the connection.!"<<endl;
-//         }
-//         else if(!validA && validB){
-//             cout<<"Building : "<<buildingA<<" don't exist in buildings list. Can't make the connection.!"<<endl;
-//         }
-//         else{
-//             cout<<"Building : "
-//                 <<buildingA
-//                 <<" and Building : "
-//                 <<buildingB
-//                 <<" Both buildings do not exist in the buildings list. Can't make the connection!"
-//                 <<endl;
-//         }
-//     }
-// }
-// file.close();
-
-// }
 
 void CampusGraph::loadConnections(const string& filename){
     ifstream file(filename);
