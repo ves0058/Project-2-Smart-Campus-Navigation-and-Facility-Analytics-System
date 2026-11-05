@@ -28,7 +28,7 @@ void CampusGraph::loadBuildings(const string& filename){
         // Trim whitespace and \r using a basic loop
         int start = 0;
         int end = line.size() - 1;
-        while(start < line.size() && (isspace(line[start]) || line[start] == '\r')){
+        while(start < (int)line.size() && (isspace(line[start]) || line[start] == '\r')){
             start++;
         }
         while(end >= start && (isspace(line[end]) || line[end] == '\r')){
@@ -75,46 +75,212 @@ void CampusGraph::loadBuildings(const string& filename){
 //Creating Graphs connection logic
 //Here we will read the connection data from the bonnections.h file
 // and accourdlingy create those connections
+// void CampusGraph::loadConnections(const string& filename){
+//     ifstream file(filename);
+
+//     if(!file.is_open()){
+//         cout<<"Error :: File : "<<filename<<" can't be accessed "<<endl;
+//         return;
+//     }
+//     string line;
+//     while(getline(file, line)){
+//     stringstream ss(line);
+//     string buildingA, buildingB;
+
+//     //spiliting each line using '|' 
+//     //Here we are also making sure that before creating a building connection 
+//     // the two buildings are actually valid!
+//     if(getline(ss,buildingA,'|')&& getline(ss, buildingB)){
+//         bool validA = isAvalidBuilding(buildingA);
+//         bool validB = isAvalidBuilding(buildingB);
+//         if(validA && validB){
+//         addEdge(buildingA, buildingB);
+//         }
+//         else if( validA && !validB){
+//             cout<<"Building : "<<buildingB<<" don't exist in buildings list. Can't make the connection.!"<<endl;
+//         }
+//         else if(!validA && validB){
+//             cout<<"Building : "<<buildingA<<" don't exist in buildings list. Can't make the connection.!"<<endl;
+//         }
+//         else{
+//             cout<<"Building : "
+//                 <<buildingA
+//                 <<" and Building : "
+//                 <<buildingB
+//                 <<" Both buildings do not exist in the buildings list. Can't make the connection!"
+//                 <<endl;
+//         }
+//     }
+// }
+// file.close();
+
+// }
+
 void CampusGraph::loadConnections(const string& filename){
     ifstream file(filename);
 
     if(!file.is_open()){
-        cout<<"Error :: File : "<<filename<<" can't be accessed "<<endl;
+        cout<<"Error :: "<< filename << " can't be accessed at the moment, please try again! "<<endl;
         return;
     }
+
     string line;
+    int lineNum = 0;
+    int accepted = 0;
+    int rejected = 0;
+
     while(getline(file, line)){
-    stringstream ss(line);
-    string buildingA, buildingB;
+        lineNum++;
+        // trim whitespace and '\r' from the line
+        int start = 0;
+        int end = line.size() -1;// end of the line!
 
-    //spiliting each line using '|' 
-    //Here we are also making sure that before creating a building connection 
-    // the two buildings are actually valid!
-    if(getline(ss,buildingA,'|')&& getline(ss, buildingB)){
-        bool validA = isAvalidBuilding(buildingA);
-        bool validB = isAvalidBuilding(buildingB);
-        if(validA && validB){
-        addEdge(buildingA, buildingB);
+        while(start < (int)line.size() && (isspace(line[start]) || line[start] == '\r')){
+            start++;
         }
-        else if( validA && !validB){
-            cout<<"Building : "<<buildingB<<" don't exist in buildings list. Can't make the connection.!"<<endl;
+        while(end >= start && (isspace(line[end]) || line[end] == '\r')){
+            end --;
         }
-        else if(!validA && validB){
-            cout<<"Building : "<<buildingA<<" don't exist in buildings list. Can't make the connection.!"<<endl;
+
+        if(start > end || line[start] == '#'){
+            continue;;
         }
-        else{
-            cout<<"Building : "
-                <<buildingA
-                <<" and Building : "
-                <<buildingB
-                <<" Both buildings do not exist in the buildings list. Can't make the connection!"
-                <<endl;
+        string clearLine = "";
+        for(int i = start; i <= end; i++){
+            clearLine += line[i];
         }
+
+        stringstream ss(clearLine);
+
+     string buildingA = "", buildingB = "", extra = "";
+
+        // Reading building by building separated by '|' and checking for extra fields
+        if(!getline(ss, buildingA, '|') || !getline(ss, buildingB, '|') || getline(ss, extra)){
+            cout << "Warning :: File : " << filename << " at line " << lineNum 
+                 << " -> Malformed line: \"" << clearLine << "\". Skipping line!" << endl;
+            rejected++;
+            continue;
+        }
+        //Cleaning building 'A'
+        int buildingAstart = 0;
+        int buildingAend = (int)buildingA.size() -1;
+
+        //skipping leading spaces , tabls and '\r'
+        while(buildingAstart < (int)buildingA.size()){
+            if(buildingA[buildingAstart] == ' ' || buildingA[buildingAstart] == '\t' || buildingA[buildingAstart] == '\r'){
+                buildingAstart++;
+            }
+            else{
+                break;
+            }
+        }
+
+        //skipping traling space tabs and '\r' at the end of the line
+        while (buildingAend >= buildingAstart) {
+            if (buildingA[buildingAend] == ' ' || buildingA[buildingAend] == '\t' || buildingA[buildingAend] == '\r') {
+                buildingAend--;
+            } else {
+                break;
+            }
+        }
+        // cleaned string building
+        string cleanA = "";
+        for (int i = buildingAstart; i <= buildingAend; i++) {
+            cleanA += buildingA[i];
+        }
+
+        // Clean buildingB
+        int bStart = 0;
+        int bEnd = buildingB.size() - 1;
+
+        // Skip leading spaces tabls and '\r'
+        while (bStart < (int)buildingB.size()) {
+            if (buildingB[bStart] == ' ' || buildingB[bStart] == '\t' || buildingB[bStart] == '\r') {
+                bStart++;
+            } else {
+                break;
+            }
+        }
+
+        // Skip leading spaces tabls and '\r' at the end
+        while (bEnd >= bStart) {
+            if (buildingB[bEnd] == ' ' || buildingB[bEnd] == '\t' || buildingB[bEnd] == '\r') {
+                bEnd--;
+            } else {
+                break;
+            }
+        }
+
+        // Build the cleaned string
+        string cleanB = "";
+        for (int i = bStart; i <= bEnd; i++) {
+            cleanB += buildingB[i];
+        }
+
+
+
+
+        //////
+
+        // Find index of both buildings
+        int u = findNode(cleanA);
+        int v = findNode(cleanB);
+
+        // This is the crucial part of the code this is where we would 
+        //  1. that not same connection are created twice,
+        //  2. If a building don't exist in the building list, the connection can't be made
+        //  3. if both buildings don't exist in the the building list then reject the load!
+
+        if(u == -1 || v == -1){
+            if(u == -1 && v != -1){
+                cout << "Warning :: File : " << filename << " at line " << lineNum 
+                     << " -> Building : " << cleanA << " does not exist in buildings list. Can't make connection!" << endl;
+            } else if(u != -1 && v == -1){
+                cout << "Warning :: File : " << filename << " at line " << lineNum 
+                     << " -> Building : " << cleanB << " does not exist in buildings list. Can't make connection!" << endl;
+            } else {
+                cout << "Warning :: File : " << filename << " at line " << lineNum 
+                     << " -> Both " << cleanA << " and " << cleanB << " do not exist in buildings list. Can't make connection!" << endl;
+            }
+            rejected++;
+            continue;
+        }
+
+        // Rejecting self connection here! 
+        if(u == v){
+            cout << "Warning :: File : " << filename << " at line " << lineNum 
+                 << " -> Building : " << cleanA << " cannot connect to itself. Can't make connection!" << endl;
+            rejected++;
+            continue;
+        }
+
+        // Rejecting Self loops and reverse conditions!
+        bool alreadyConnected = false;
+        for(int i = 0; i < adjList[u].size(); i++){
+            if(adjList[u][i] == v){
+                alreadyConnected = true;
+                break;
+            }
+        }
+
+        if(alreadyConnected){
+            cout << "Warning :: File : " << filename << " at line " << lineNum 
+                 << " -> Connection between " << cleanA << " and " << cleanB << " already exists. can't add duplicates!" << endl;
+            rejected++;
+            continue;
+        }
+
+        // If everting is good then adding a bidirectional connection
+        adjList[u].push_back(v);
+        adjList[v].push_back(u);
+        accepted++;
     }
-}
-file.close();
+    file.close();
+
+    cout << filename << ": " << accepted << " accepted, " << rejected << " rejected" << endl;
 
 }
+
 
 
 /*Here we would either get the index of the building or add a new building to the names vectord
@@ -157,7 +323,7 @@ string CampusGraph::normalName(const string& name){
     int end = name.size() - 1;
 
     // removes whitespace from the beginning
-    while (start < name.size() && isspace(name[start])) {
+    while (start < (int)name.size() && isspace(name[start])) {
         start++;
     }
 
@@ -198,12 +364,38 @@ void CampusGraph::addEdge(const string& uNodeName, const string& vNodeName){
 
 
 // Running a basic bfs search with a given node by the user;
-//will display bfs rechibility and distance
+//We will also make sure that the input building name by the user is trimmed and good to use for check
+//will display bfs rechibility and distance as well!
 
-void CampusGraph::bfs(const string& startNode){
+void CampusGraph::bfs(){
+    cout << "Enter starting building name: ";
+    string input;
+    getline(cin, input);
+
+    // Trim leading whitespace, tabs, and returns
+    int start = 0;
+    int end = input.size() - 1;
+    while (start < (int)input.size() && (isspace(input[start]) || input[start] == '\r')) {
+        start++;
+    }
+    while (end >= start && (isspace(input[end]) || input[end] == '\r')) {
+        end--;
+    }
+
+    // Check if input was blank ____
+    if (start > end) {
+        cout << "!!!Error: Building name cannot be blank. please try again!!!" << endl;
+        return;
+    }
+
+    string startNode = "";
+    for (int i = start; i <= end; i++) {
+        startNode += input[i];
+    }
+
     int srcNode = findNode(startNode);
     if(srcNode == -1){
-        cout<<"Node : "<<startNode<<" Don't exist in the current Graph. please try again!"<<endl;
+        cout<<"!!!Node : "<<startNode<<" Does not exist in the current Graph. please try again!!!"<<endl;
         return;
     }
 
@@ -211,7 +403,7 @@ void CampusGraph::bfs(const string& startNode){
     vector<int> distance(names.size(), -1);
     queue<int> que;
 
-    cout<<"========== BFS REACHABILITY ==========";
+    cout<<"========== BFS REACHABILITY ==========\n";
     cout<<"++++++++++++++++++++++++++++++++++++++"<<endl;
 
     cout << "\nFrom " << names[srcNode] << ":" << endl;
@@ -303,7 +495,6 @@ void CampusGraph::generateGraphStats()const{
     }
     cout<<"\n\n";
 }
-
 
 
 
