@@ -7,20 +7,20 @@ int main(){
 
     cout<<"Graph demo and check!\n";
 
-cout << " 1 LOADING FILES " << endl;
+cout << " Load files " << endl;
     graph1.loadBuildings("data/buildings.txt");
     graph1.loadConnections("data/connections.txt");
     cout << endl;
 
-    cout << "--- VIEW BUILDINGS AND CONNECTIONS ---" << endl;
+    cout << "display campus graph" << endl;
     graph1.viewBuildingsandConnection();
     cout << endl;
 
-    cout << "--- GRAPH STATS ---" << endl;
+    cout << "graph stats" << endl;
     graph1.generateGraphStats();
     cout << endl;
 
-    cout << "--- TESTING BFS ---" << endl;
+    cout << "-Bfs test" << endl;
     graph1.bfs();
 
     return 0;
