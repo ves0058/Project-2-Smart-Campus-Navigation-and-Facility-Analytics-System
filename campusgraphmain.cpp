@@ -2,6 +2,10 @@
 #include "campusgraph.h"
 using namespace std;
 
+
+//This is just a temp file that i've created just to see if my logic works!
+//Remove it when we will acutally make the main file!
+
 int main(){
     CampusGraph graph1;
 

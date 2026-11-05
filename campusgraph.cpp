@@ -61,7 +61,7 @@ void CampusGraph::loadBuildings(const string& filename){
             continue;
         }
 
-        // when everting is valid add the building to the vector
+        // when everting is valid add the building to the vector! success!
         names.push_back(buildingName);
         adjList.push_back({});
         accepted++;
@@ -114,14 +114,14 @@ void CampusGraph::loadConnections(const string& filename){
 
      string buildingA = "", buildingB = "", extra = "";
 
-        // Reading building by building separated by '|' and checking for extra fields
+        // Reading building by building separated by '|' pipe and checking for any extra fields!
         if(!getline(ss, buildingA, '|') || !getline(ss, buildingB, '|') || getline(ss, extra)){
             cout << "Warning :: File : " << filename << " at line " << lineNum 
                  << " -> Malformed line: \"" << clearLine << "\". Skipping line!" << endl;
             rejected++;
             continue;
         }
-        //Cleaning building 'A'
+        //Cleaning building A
         int buildingAstart = 0;
         int buildingAend = (int)buildingA.size() -1;
 
@@ -236,7 +236,7 @@ void CampusGraph::loadConnections(const string& filename){
         accepted++;
     }
     file.close();
-
+    //letting the user know how many buildings were accepted rejected! 
     cout << filename << ": " << accepted << " accepted, " << rejected << " rejected" << endl;
 
 }
@@ -245,7 +245,13 @@ void CampusGraph::loadConnections(const string& filename){
 
 /*Here we would either get the index of the building or add a new building to the names vectord
 and keep up with the indexes for the integer vector that maps each building names with integer index.
+So basically the idead is to run the integer vector paraller to the buildings name vector
+that way we could run the bfs and generate stats using integers index insted to strings...
 */
+
+/*this is a healper function which would either make sure that
+if the node alredy exist we don't create it again and if the node 
+don't exist we can create it! */
 
 int CampusGraph::getOrAddNode(const string& name){
     for(int i =0; i<names.size(); i++){
@@ -266,7 +272,7 @@ int CampusGraph::getOrAddNode(const string& name){
 
 
 //This is heapler function to determin weather the buiding is a valid or not 
-//cheacking the names vector
+//cheacking the names vector; invalid buildings will be disregarded!
 bool CampusGraph::isAvalidBuilding(const string& buildingName){
     bool isValid = false;
     for(int i=0; i<names.size(); i++){
@@ -276,7 +282,8 @@ bool CampusGraph::isAvalidBuilding(const string& buildingName){
     }
     return isValid;
 }
-
+// take the names input by the user and convers it to lowercase 
+//to make every name standard when comparing! no mimatch between uppercase and lowercase
 string CampusGraph::normalName(const string& name){
     string result = "";
       int start = 0;
@@ -313,7 +320,7 @@ int CampusGraph::findNode(const string& nodeToFind) {
     return -1;
 }
 
-//This is where we makes the connection for buildings(edges). undirected 
+//This is where we makes the connection for buildings(edges). undirected <->
 void CampusGraph::addEdge(const string& uNodeName, const string& vNodeName){
     int uNode = getOrAddNode(uNodeName);
     int vNode = getOrAddNode(vNodeName);
@@ -324,7 +331,7 @@ void CampusGraph::addEdge(const string& uNodeName, const string& vNodeName){
 
 
 // Running a basic bfs search with a given node by the user;
-//We will also make sure that the input building name by the user is trimmed and good to use for check
+//We will also make sure that the input building name by the user is trimmed and good to use for check.
 //will display bfs rechibility and distance as well!
 
 void CampusGraph::bfs(){
@@ -353,15 +360,15 @@ void CampusGraph::bfs(){
         startNode += input[i];
     }
 
-    int srcNode = findNode(startNode);
+    int srcNode = findNode(startNode);//this uses the healper function to make sure that node exist in the names vector
     if(srcNode == -1){
         cout<<"!!!Node : "<<startNode<<" Does not exist in the current Graph. please try again!!!"<<endl;
         return;
     }
 
     vector<bool> status(names.size(), false);
-    vector<int> distance(names.size(), -1);
-    queue<int> que;
+    vector<int> distance(names.size(), -1);//to calculate the distance
+    queue<int> que;//basice que implementation to run BFS
 
     cout<<"========== BFS REACHABILITY ==========\n";
     cout<<"++++++++++++++++++++++++++++++++++++++"<<endl;
@@ -396,6 +403,7 @@ void CampusGraph::bfs(){
                 reachableCounter++;
             }
         }
+        //output the rechability count  and the actual size of the names vector as an comparision
         cout << "Reachable: " << reachableCounter << " of " << names.size() << " buildings" << endl;
 }
 
@@ -412,6 +420,7 @@ void CampusGraph::viewBuildingsandConnection()const{
         return;
     }
 
+    //outputting the connections
     for (int i = 0; i < names.size(); i++)
     {
 
