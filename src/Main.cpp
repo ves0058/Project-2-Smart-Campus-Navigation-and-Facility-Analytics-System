@@ -7,12 +7,8 @@ int main()
 
 	manager.printHeader();
 
-	// string BuildingsFile = "data/buildings.txt";
-	// string FacilitiesFile = "data/facilities.txt";
-
-	// test malformed data
-	string BuildingsFile = "test_data/buildings.txt";
-	string FacilitiesFile = "test_data/facilities.txt";
+	string BuildingsFile = "data/buildings.txt";
+	string FacilitiesFile = "data/facilities.txt";
 
 	manager.loadBuildingsFromFile(BuildingsFile);
 	manager.loadFacilitiesFromFile(FacilitiesFile);
