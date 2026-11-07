@@ -1,0 +1,26 @@
+# FacilityID|FacilityName|BuildingName|Category
+F001|Main Reading Room|Library|Library
+
+F002|Tutoring Center|Library|Tutoring Center
+F003|Student Services Office|Student Union|Student Services Office
+F004|Computer Lab A|Science Building|Computer Lab
+         F005|Room 101|Engineering Building|Classroom            
+F006|Computer Lab B|Engineering Building|Computer Lab
+F999|Fitness Center|Gym|Recreation
+F004|Research Help Desk|Library|Library
+F007      |Room 101|Business Building|Classroom
+F008|Fitness Center|Gym|Recreation
+F009|Room 205|      Science Building|Classroom
+F010|Research Help Desk|Library|Library
+F042|Fitness Center|Gym|Recreation10
+F037|Research Help Desk|Library|Tutoring Center
+rd0824|Student Services Office|Student Union|Student Services Office
+f011|Research Help Desk|Library|Tutoring Center
+F100|Student Services Office|Student Services Office|
+UNT|Research Help Desk|Library|Tutoring Center
+F012||Library|Tutoring Center
+
+F033|Computer Lab A|Science Building|Computer Lab
+F171| |Engineering Building|Computer Lab
+F008|Tutoring Center|Library|Tutoring Center
+F171|Computer Lab C|Engineering Building|Computer Lab
