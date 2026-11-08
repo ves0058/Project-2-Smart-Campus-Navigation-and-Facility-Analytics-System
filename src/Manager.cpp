@@ -19,15 +19,13 @@ void Manager::printMenu() // prints the menu of all possible options
 	cout << "====== Smart Campus Navigation and Facility Analytics System ======" << endl;
     cout << "1.  View all facilities" << endl;
     cout << "2.  Search facility by ID" << endl;
-
-    // FIXME: combine
-    // cout << "3.  View campus graph" << endl;
-    // cout << "4.  Display graph counts and degrees" << endl;
-    // cout << "5.  Find reachable buildings (BFS)" << endl;
-    // cout << "6.  Add department" << endl;
-    // cout << "7.  Search department" << endl;
-    // cout << "8.  Display department hierarchy" << endl;
-    // cout << "9.  Run preorder traversal" << endl;
+    cout << "3.  View campus graph" << endl;
+    cout << "4.  Display graph counts and degrees" << endl;
+    cout << "5.  Find reachable buildings (BFS)" << endl;
+    cout << "6.  Add department" << endl;
+    cout << "7.  Search department" << endl;
+    cout << "8.  Display department hierarchy" << endl;
+    cout << "9.  Run preorder traversal" << endl;
     cout << "10. Exit" << endl;
     cout << endl;
     cout<<"Enter Choice: ";
