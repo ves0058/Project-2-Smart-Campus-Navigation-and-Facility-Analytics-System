@@ -13,8 +13,6 @@ struct DepartmentNode {
     DepartmentNode* parent;
     vector<DepartmentNode*> children;
 
-    DepartmentNode(string departmentName,
-                   DepartmentNode* parentNode = nullptr);
 };
 
 // This manages the department general tree.
@@ -22,33 +20,17 @@ class DepartmentTree {
 private:
     DepartmentNode* root;
 
-    DepartmentNode* findNode(DepartmentNode* node,
-                             const string& name) const;
-
-    void displayHierarchy(DepartmentNode* node,
-                          int depth) const;
-
-    void preorder(DepartmentNode* node) const;
-
-    void deleteTree(DepartmentNode* node);
-
 public:
     DepartmentTree();
     ~DepartmentTree();
 
-    DepartmentTree(const DepartmentTree&) = delete;
-    DepartmentTree& operator=(const DepartmentTree&) = delete;
-
     bool isEmpty() const;
 
-    bool addDepartment(const string& name,
-                       const string& parentName);
-
-    void searchDepartment(const string& name) const;
-
-    void displayHierarchy() const;
-
-    void preorderTraversal() const;
+    void loadFromFile();
+    void addDepartment();
+    void searchDepartment();
+    void displayHierarchy();
+    void preorderTraversal();
 };
 
 #endif
