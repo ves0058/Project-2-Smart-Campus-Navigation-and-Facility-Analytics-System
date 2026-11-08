@@ -1,81 +1,93 @@
 #include "Manager.h"
-
+#include "campusgraph.h"
+#include "DepartmentTree.h"
 
 int main()
 {
-	Manager manager;
+    Manager manager;
+    CampusGraph graph;
+    DepartmentTree department; 
 
-	manager.printHeader();
 
-	string BuildingsFile = "data/buildings.txt";
-	string FacilitiesFile = "data/facilities.txt";
 
-	manager.loadBuildingsFromFile(BuildingsFile);
-	manager.loadFacilitiesFromFile(FacilitiesFile);
+    string loadgraphbuildings = "data/buildings.txt";
+    string loadgraphconnections = "data/connections.txt";
+    //string Departmentsfile = "data/departments.txt";
+    string BuildingsFile = "data/buildings.txt";
+    string FacilitiesFile = "data/facilities.txt";
+	department.loadFromFile();
+    
+    graph.loadBuildings(loadgraphbuildings);
+    graph.loadConnections(loadgraphconnections);
+    manager.loadBuildingsFromFile(BuildingsFile);
+    manager.loadFacilitiesFromFile(FacilitiesFile);
+    
+    manager.printHeader();
 
-	// FIXME: add your files and implementations...
+    // string BuildingsFile = "data/buildings.txt";
+    // string FacilitiesFile = "data/facilities.txt";
 
-	string input;
-	int choice;
-	while (true)
-	{
-		manager.printMenu();
-		cin >> input;
-		cout << endl;
+    // test malformed data
 
-		if (manager.isChoiceCorrect(input))
-		{
-			choice = stoi(input); // converts string to int
 
-			switch (choice)
-			{
-				case 1:
-					manager.viewFacilities();
+    // FIXME: add your files and implementations...
+
+    string input;
+    int choice;
+    while (true)
+    {
+        manager.printMenu();
+        cin >> input;
+        cout << endl;
+
+        if (manager.isChoiceCorrect(input))
+        {
+            choice = stoi(input); // converts string to int
+
+            switch (choice)
+            {
+                case 1:
+                    manager.viewFacilities();
+                    break;
+                case 2:
+                    manager.searchFacility();
+                    break;
+                case 3:
+                    graph.viewBuildingsandConnection();
+                    break;
+                case 4:
+                    graph.generateGraphStats();
+                    break;
+                case 5:
+                    graph.bfs();
+                    break;
+				case 6:
+					department.addDepartment();
 					break;
-				case 2:
-					manager.searchFacility();
+				case 7:
+					department.searchDepartment();
 					break;
-
-
-
-		// ---------------------------FIXME:------------------------------------------			
-				// case 3:
-				// 	manager.cancelReservation();
-				// 	break;
-				// case 4:
-				// 	manager.viewWaitingList();
-				// 	break;
-				// case 5:
-				// 	manager.undoCancellation();
-				// 	manager.availabilityManager();
-				// 	break;
-				// case 6:
-				// 	manager.searchReservations();
-				// 	break;
-				// case 7:
-				// 	manager.sortResources();
-				// 	break;
-				// case 8:
-				// 	manager.generateReport();
-				// 	break;
-				// case 9:
-				// 	manager.viewCancellationHistory();
-				// 	break;
-				case 10:
-					cout << "Thank you for using \"Smart Campus Navigation and Facility Analytics System\"!" << endl;
-					return 0;
-				default:
-					cout << "Wrong choice! try again." << endl;
-					cout << endl;
+				case 8:
+					department.displayHierarchy();
 					break;
-			}
-		}
-		else
-		{
-			cout << "Wrong choice! try again." << endl;
-			cout << endl;
-		}
-	}
+				case 9:
+					department.preorderTraversal();
+					break;
+                case 10:
+                    cout << "Thank you for using \"Smart Campus Navigation and Facility Analytics System\"!" << endl;
+                    return 0;
+                default:
+                    cout << "Wrong choice! try again." << endl;
+                    cout << endl;
+                    break;
+            }
+        }
+        else
+        {
+            cout << "Wrong choice! try again." << endl;
+            cout << endl;
+        }
+    }
 
-	return 0;
+    return 0;
 }
