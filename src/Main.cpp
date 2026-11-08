@@ -8,29 +8,17 @@ int main()
     CampusGraph graph;
     DepartmentTree department; 
 
-
-
     string loadgraphbuildings = "data/buildings.txt";
     string loadgraphconnections = "data/connections.txt";
-    //string Departmentsfile = "data/departments.txt";
     string BuildingsFile = "data/buildings.txt";
     string FacilitiesFile = "data/facilities.txt";
 	department.loadFromFile();
-    
     graph.loadBuildings(loadgraphbuildings);
     graph.loadConnections(loadgraphconnections);
     manager.loadBuildingsFromFile(BuildingsFile);
     manager.loadFacilitiesFromFile(FacilitiesFile);
     
     manager.printHeader();
-
-    // string BuildingsFile = "data/buildings.txt";
-    // string FacilitiesFile = "data/facilities.txt";
-
-    // test malformed data
-
-
-    // FIXME: add your files and implementations...
 
     string input;
     int choice;
