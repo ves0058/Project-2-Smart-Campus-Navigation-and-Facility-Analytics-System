@@ -12,7 +12,7 @@ class HashTable
 {
 	private:
 		// dynamic-array: initial capacity is set in constructor parameter
-		vector<vector<Facility>> facilities{101}; // use prime number as a capacity to distribute the elements evenly
+		vector<vector<Facility> >  facilities{101}; // use prime number as a capacity to distribute the elements evenly
 		
 		int DSA_size = 0; // number of facilities in hash table
 
