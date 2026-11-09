@@ -63,12 +63,12 @@ void CampusGraph::loadBuildings(const string& filename){
 
         // when everting is valid add the building to the vector! success!
         names.push_back(buildingName);
-        adjList.push_back({});
+        adjList.push_back(vector<int>());
         accepted++;
     }
     file.close();
 
-    cout << filename << ": " << accepted << " accepted, " << rejected << " rejected" << endl;
+
 }
 
 
@@ -93,18 +93,27 @@ void CampusGraph::loadConnections(const string& filename){
         lineNum++;
         // trim whitespace and '\r' from the line
         int start = 0;
-        int end = line.size() -1;// end of the line!
+        int end = line.size() - 1;// end of the line!
 
         while(start < (int)line.size() && (isspace(line[start]) || line[start] == '\r')){
             start++;
         }
         while(end >= start && (isspace(line[end]) || line[end] == '\r')){
-            end --;
+            end--;
         }
 
-        if(start > end || line[start] == '#'){
-            continue;;
+        // Empty line check
+        if(start > end){
+            continue;
         }
+
+        // Comment line check
+        if(line[start] == '#'){
+            cout << "File name: \"" << filename << "\", Line number: " << lineNum 
+                 << ", Reason: comment line." << endl;
+            continue;
+        }
+
         string clearLine = "";
         for(int i = start; i <= end; i++){
             clearLine += line[i];
@@ -112,18 +121,18 @@ void CampusGraph::loadConnections(const string& filename){
 
         stringstream ss(clearLine);
 
-     string buildingA = "", buildingB = "", extra = "";
+        string buildingA = "", buildingB = "", extra = "";
 
         // Reading building by building separated by '|' pipe and checking for any extra fields!
         if(!getline(ss, buildingA, '|') || !getline(ss, buildingB, '|') || getline(ss, extra)){
-            cout << "Warning :: File : " << filename << " at line " << lineNum 
-                 << " -> Malformed line: \"" << clearLine << "\". Skipping line!" << endl;
+            cout << "File name: \"" << filename << "\", Line number: " << lineNum 
+                 << ", Reason: Malformed line." << endl;
             rejected++;
             continue;
         }
         //Cleaning building A
         int buildingAstart = 0;
-        int buildingAend = (int)buildingA.size() -1;
+        int buildingAend = (int)buildingA.size() - 1;
 
         //skipping leading spaces , tabls and '\r'
         while(buildingAstart < (int)buildingA.size()){
@@ -177,9 +186,6 @@ void CampusGraph::loadConnections(const string& filename){
             cleanB += buildingB[i];
         }
 
-
-
-
         //////
 
         // Find index of both buildings
@@ -193,14 +199,14 @@ void CampusGraph::loadConnections(const string& filename){
 
         if(u == -1 || v == -1){
             if(u == -1 && v != -1){
-                cout << "Warning :: File : " << filename << " at line " << lineNum 
-                     << " -> Building : " << cleanA << " does not exist in buildings list. Can't make connection!" << endl;
+                cout << "File name: \"" << filename << "\", Line number: " << lineNum 
+                     << ", Reason: Building " << cleanA << " does not exist in buildings list." << endl;
             } else if(u != -1 && v == -1){
-                cout << "Warning :: File : " << filename << " at line " << lineNum 
-                     << " -> Building : " << cleanB << " does not exist in buildings list. Can't make connection!" << endl;
+                cout << "File name: \"" << filename << "\", Line number: " << lineNum 
+                     << ", Reason: Building " << cleanB << " does not exist in buildings list." << endl;
             } else {
-                cout << "Warning :: File : " << filename << " at line " << lineNum 
-                     << " -> Both " << cleanA << " and " << cleanB << " do not exist in buildings list. Can't make connection!" << endl;
+                cout << "File name: \"" << filename << "\", Line number: " << lineNum 
+                     << ", Reason: Both " << cleanA << " and " << cleanB << " do not exist in buildings list." << endl;
             }
             rejected++;
             continue;
@@ -208,15 +214,15 @@ void CampusGraph::loadConnections(const string& filename){
 
         // Rejecting self connection here! 
         if(u == v){
-            cout << "Warning :: File : " << filename << " at line " << lineNum 
-                 << " -> Building : " << cleanA << " cannot connect to itself. Can't make connection!" << endl;
+            cout << "File name: \"" << filename << "\", Line number: " << lineNum 
+                 << ", Reason: Building " << cleanA << " cannot connect to itself." << endl;
             rejected++;
             continue;
         }
 
         // Rejecting Self loops and reverse conditions!
         bool alreadyConnected = false;
-        for(int i = 0; i < adjList[u].size(); i++){
+        for(size_t i = 0; i < adjList[u].size(); i++){
             if(adjList[u][i] == v){
                 alreadyConnected = true;
                 break;
@@ -224,8 +230,8 @@ void CampusGraph::loadConnections(const string& filename){
         }
 
         if(alreadyConnected){
-            cout << "Warning :: File : " << filename << " at line " << lineNum 
-                 << " -> Connection between " << cleanA << " and " << cleanB << " already exists. can't add duplicates!" << endl;
+            cout << "File name: \"" << filename << "\", Line number: " << lineNum 
+                 << ", Reason: Connection between " << cleanA << " and " << cleanB << " already exists." << endl;
             rejected++;
             continue;
         }
@@ -236,13 +242,11 @@ void CampusGraph::loadConnections(const string& filename){
         accepted++;
     }
     file.close();
-    //letting the user know how many buildings were accepted rejected! 
+
+    // Letting the user know how many connections were accepted/rejected
     cout << filename << ": " << accepted << " accepted, " << rejected << " rejected" << endl;
-
+    cout<<endl;
 }
-
-
-
 /*Here we would either get the index of the building or add a new building to the names vectord
 and keep up with the indexes for the integer vector that maps each building names with integer index.
 So basically the idead is to run the integer vector paraller to the buildings name vector
@@ -265,8 +269,7 @@ int CampusGraph::getOrAddNode(const string& name){
 
     /*Creating an extra spot for the future building index
      so both names and adjList vectors can run paraller*/ 
-    adjList.push_back({});
-
+    adjList.push_back(vector<int>());
     return newIdx;
 }
 
@@ -388,8 +391,9 @@ void CampusGraph::bfs(){
             //this is where it outputs the distance and name of the building
             cout << names[u] << " (distance " << distance[u] << ")" << endl;
 
-            for (int v : adjList[u]) {
-                if (!status[v]) {
+            for (int i = 0; i < adjList[u].size(); i++) {
+                int v = adjList[u][i]; {
+                if (!status[v]) 
                     status[v] = true;
                     distance[v] = distance[u] +1 ;
                     que.push(v);
@@ -399,11 +403,11 @@ void CampusGraph::bfs(){
         cout << "\n\n";
 
         int reachableCounter = 0;
-        for(auto i: status){
-            if(i == true){
-                reachableCounter++;
-            }
-        }
+        for(int i = 0; i < status.size(); i++){
+        if(status[i] == true){
+        reachableCounter++;
+    }
+}
         //output the rechability count  and the actual size of the names vector as an comparision
         cout << "Reachable: " << reachableCounter << " of " << names.size() << " buildings" << endl;
 }
@@ -431,10 +435,11 @@ void CampusGraph::viewBuildingsandConnection()const{
         if(adjList[i].empty()){
             cout<<"\t\t--> (no connections)"<<endl;
         }
-        for (int neighbor : adjList[i])
-        {
-            cout << "\t\t-->"<<names[neighbor] << endl;
-        }
+        for (int j = 0; j < adjList[i].size(); j++)
+    {
+    int neighbor = adjList[i][j];
+    cout << "\t\t-->"<<names[neighbor] << endl;
+    }
     }
 }
 

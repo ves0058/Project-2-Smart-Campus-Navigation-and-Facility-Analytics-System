@@ -36,6 +36,10 @@ void DepartmentTree::loadFromFile() {
         cout << "Error opening departments.txt\n";
         return;
     }
+
+    // Bare filename for uniform output
+    const string displayName = "departments.txt";
+
     string line;
     int accepted = 0;
     int rejected = 0;
@@ -50,9 +54,13 @@ void DepartmentTree::loadFromFile() {
         }
         size_t last = line.find_last_not_of(" \t\r\n");
         line = line.substr(first, last - first + 1);
+
         if (line[0] == '#') {
+            cout << "File name: \"" << displayName << "\", Line number: " << lineNumber
+                 << ", Reason: comment line." << endl;
             continue;
         }
+
         string departmentName;
         string parentName;
         string extraField;
@@ -63,16 +71,17 @@ void DepartmentTree::loadFromFile() {
         getline(record, parentName, '|');
 
         if (getline(record, extraField, '|')) {
-            cout << "Line " << lineNumber
-                 << ": Incorrect number of fields.\n";
+            cout << "File name: \"" << displayName << "\", Line number: " << lineNumber
+                 << ", Reason: Incorrect number of fields." << endl;
             rejected++;
             continue;
         }
+
         first = departmentName.find_first_not_of(" \t\r\n");
 
         if (first == string::npos) {
-            cout << "Line " << lineNumber
-                 << ": Empty department name.\n";
+            cout << "File name: \"" << displayName << "\", Line number: " << lineNumber
+                 << ", Reason: Empty department name." << endl;
             rejected++;
             continue;
         }
@@ -83,8 +92,8 @@ void DepartmentTree::loadFromFile() {
         first = parentName.find_first_not_of(" \t\r\n");
 
         if (first == string::npos) {
-            cout << "Line " << lineNumber
-                 << ": Empty parent name.\n";
+            cout << "File name: \"" << displayName << "\", Line number: " << lineNumber
+                 << ", Reason: Empty parent name." << endl;
             rejected++;
             continue;
         }
@@ -98,10 +107,11 @@ void DepartmentTree::loadFromFile() {
                 tolower(static_cast<unsigned char>(
                     normalizedParent[i]));
         }
+
         if (root == nullptr) {
             if (normalizedParent != "none") {
-                cout << "Line " << lineNumber
-                     << ": First department must have NONE as parent.\n";
+                cout << "File name: \"" << displayName << "\", Line number: " << lineNumber
+                     << ", Reason: First department must have NONE as parent." << endl;
                 rejected++;
                 continue;
             }
@@ -112,12 +122,14 @@ void DepartmentTree::loadFromFile() {
             accepted++;
             continue;
         }
+
         if (normalizedParent == "none") {
-            cout << "Line " << lineNumber
-                 << ": Additional root department.\n";
+            cout << "File name: \"" << displayName << "\", Line number: " << lineNumber
+                 << ", Reason: Additional root department." << endl;
             rejected++;
             continue;
         }
+
         // This function searches for the department and its parent node
         DepartmentNode* parentNode = nullptr;
         bool duplicate = false;
@@ -145,6 +157,7 @@ void DepartmentTree::loadFromFile() {
             if (currentName == compareName) {
                 duplicate = true;
             }
+
             string currentParent = current->name;
             string compareParent = parentName;
 
@@ -165,18 +178,21 @@ void DepartmentTree::loadFromFile() {
                 nodes.push(current->children[i]);
             }
         }
+
         if (duplicate) {
-            cout << "Line " << lineNumber
-                 << ": Duplicate department.\n";
+            cout << "File name: \"" << displayName << "\", Line number: " << lineNumber
+                 << ", Reason: Duplicate department." << endl;
             rejected++;
             continue;
         }
+
         if (parentNode == nullptr) {
-            cout << "Line " << lineNumber
-                 << ": Parent department not found.\n";
+            cout << "File name: \"" << displayName << "\", Line number: " << lineNumber
+                 << ", Reason: Parent department not found." << endl;
             rejected++;
             continue;
         }
+
         // This creates and attaches the new department
         DepartmentNode* newNode = new DepartmentNode;
 
@@ -189,9 +205,9 @@ void DepartmentTree::loadFromFile() {
     }
     inputFile.close();
 
-    cout << "\nDepartment file loaded.\n";
-    cout << "Accepted: " << accepted << "\n";
-    cout << "Rejected: " << rejected << "\n";
+    // Summary line output
+    cout << displayName << ": " << accepted << " accepted, " << rejected << " rejected" << endl;
+    cout<<endl;
 }
 // This function adds a department using user input
 void DepartmentTree::addDepartment() {
@@ -362,7 +378,7 @@ void DepartmentTree::displayHierarchy() {
         cout << "No departments are loaded.\n";
         return;
     }
-    stack<pair<DepartmentNode*, int>> nodes;
+    stack<pair<DepartmentNode*, int> > nodes;
 
     nodes.push(make_pair(root, 0));
 

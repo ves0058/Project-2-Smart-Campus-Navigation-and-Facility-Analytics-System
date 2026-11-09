@@ -1,5 +1,10 @@
 #include "HashTable.h"
 
+HashTable::HashTable()
+{
+    facilities.resize(101);
+}
+
 
 bool HashTable::equalsIgnoreCase(string s1, string s2)
 {

@@ -1,0 +1,6 @@
+# BuildingA|BuildingB
+Student Union|Library
+Gym|Gym
+Library|Unknown Building
+Library|Science Building|Gym
+Unknown Building|Another Unknown Building

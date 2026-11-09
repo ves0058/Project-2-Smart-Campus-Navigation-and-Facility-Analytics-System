@@ -12,7 +12,8 @@ class HashTable
 {
 	private:
 		// dynamic-array: initial capacity is set in constructor parameter
-		vector<vector<Facility> >  facilities{101}; // use prime number as a capacity to distribute the elements evenly
+		vector<vector<Facility> > facilities;
+		// use prime number as a capacity to distribute the elements evenly
 		
 		int DSA_size = 0; // number of facilities in hash table
 
@@ -22,6 +23,7 @@ class HashTable
 		vector<string> IDs; // IDs in input order: facility IDs
 	public:
 		// functions/methods
+		HashTable();
 		bool equalsIgnoreCase(string s1, string s2);
 		int getNumberOfCollisions();
 		int getCapacity();

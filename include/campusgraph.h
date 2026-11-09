@@ -7,7 +7,7 @@ using namespace std;
 class CampusGraph
 {
     vector<string>names;//this will store the buildings name!
-    vector<vector<int>>adjList;//this will run praller to the names vector and will map each string to a integer
+    vector<vector<int> >adjList;//this will run praller to the names vector and will map each string to a integer
 
     int getOrAddNode(const string& name);//checks if a node already exist in the graph or not?
     int findNode(const string& nodeToFind);

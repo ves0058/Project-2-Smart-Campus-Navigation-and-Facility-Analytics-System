@@ -1,0 +1,6 @@
+# DepartmentName|ParentName
+computer science|College of Engineering
+Aerospace Engineering|Unknown College
+Chemistry
+|University
+University|NONE
