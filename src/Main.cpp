@@ -25,7 +25,7 @@ int main()
     while (true)
     {
         manager.printMenu();
-        cin >> input;
+        getline(cin, input);
         cout << endl;
 
         if (manager.isChoiceCorrect(input))

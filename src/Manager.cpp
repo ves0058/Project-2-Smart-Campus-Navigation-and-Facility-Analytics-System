@@ -35,6 +35,11 @@ void Manager::printMenu() // prints the menu of all possible options
 // validation
 bool Manager::isChoiceCorrect(string input) // choice vailadtion
 {
+	if (input.empty())
+	{
+		return false;
+	}
+
 	char c;
 
 	for (int i = 0; i < (int) input.length(); i++)
@@ -124,6 +129,11 @@ bool Manager::isBuildingNameUnique(string BuildingName)
 
 bool Manager::isFacilityIDValid(string &FacilityID)
 {
+	if (FacilityID.empty())
+	{
+		return false;
+	}
+
 	char s1 = FacilityID[0];
 	char s2 = FacilityID[1];
 	char s3 = FacilityID[2];
@@ -364,7 +374,6 @@ void Manager::searchFacility()
 {
 	string facilityID;
 	cout << "Facility ID: ";
-	cin.ignore();
 	getline(cin, facilityID);
 
 	facilityID = trim(facilityID);
