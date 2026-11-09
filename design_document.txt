@@ -6,7 +6,91 @@ _______________________
 
 Name: Rodion Dvoretskii
 
-Description: hash function, collision strategy with justification, collision-counting definition, capacity.
+Description:
+
+Facility: stores facility ID, name, building, and category.
+
+HashTable: implements custom hashing, insertion, deletion, collision handling, and ID lookup.
+
+HashTable Time Complexity: 
+	-> Average: O(1) for insertion, deletion, and searching.
+	-> Worst: O(n)
+
+HashTable Space Complexity: 
+	-> O(n + m), where "n" is the table capacity (101) and "m" is number of stored facilities.
+
+Hash Function: Multiplicative String Hash Function (DJB2) "hash": 
+	It processes the string one character at a time, and for each character it performs two operations:
+
+	1. Multiply the current running hash value by a constant.
+	2. Add the ASCII (or Unicode) value of the current character to the result.
+	
+	This is repeated until every character in the string has been processed. Because multiplication happens at every step, 
+	a character's position changes how much it influences the final result, which is exactly what prevents anagrams from colliding.
+
+	The most common example is the DJB2 hash function, developed by Daniel J. Bernstein. 
+	It uses an initial value of 5381 and a multiplier of 33.
+	These specific constants were chosen because, empirically, they produce a 
+	good distribution for typical English text and are simple and fast to compute.
+
+Collision Resolution Strategy: Separate Chaining
+	The project uses Separate Chaining (also called Open Hashing) to handle collisions. 
+	Each bucket stores a collection of facilities using a vector. 
+	When multiple facility IDs produce the same hash index, they are stored in the same bucket instead of overwriting existing records.
+
+	This approach was chosen because it allows multiple facilities to share a bucket and does not impose a fixed maximum number of facilities.
+
+	Since the project uses Separate Chaining, the hash table can continue accepting new facilities even when all buckets contain elements. 
+	Multiple facilities can be stored in the same bucket.
+
+Initial capacity: 101 (a prime number selected to help distribute elements across the table)
+
+Collision-counting definition: 
+	A collision is counted when an accepted facility is inserted into a bucket that already contains at least one facility. 
+	Each such insertion increases the collision counter by one. Rejected duplicate IDs do not increase the collision count.
+
+facilities.txt:
+------------------------------------------------------------------------
+| # FacilityID|FacilityName|BuildingName|Category                      | <- comment line
+| F001|Main Reading Room|Library|Library                               |
+|                                                                      | <- empty line
+| F002|Tutoring Center|Library|Tutoring Center                         |
+| F003|Student Services Office|Student Union|Student Services Office   |
+| F004|Computer Lab A|Science Building|Computer Lab                    |
+|         F005|Room 101|Engineering Building|Classroom                 | <- leading and trailing whitespaces
+| F006|Computer Lab B|Engineering Building|Computer Lab                |
+| F999|Fitness Center|Gym|Recreation                                   |
+| F004|Research Help Desk|Library|Library                              | <- rejected duplicate (1)
+| F007      |Room 101|Business Building|Classroom                      | <- leading and trailing whitespaces
+| F008|Fitness Center|Gym|Recreation                                   |
+| F009|Room 205|      Science Building|Classroom                       | <- leading and trailing whitespaces
+| F010|Research Help Desk|Library|Library                              |
+| F042|Fitness Center|Gym|Recreation10                                 |
+| F037|Research Help Desk|Library|Tutoring Center                      |
+| rd0824|Student Services Office|Student Union|Student Services Office | <- invalid facility ID
+| f011|Research Help Desk|Library|Tutoring Center                      |
+| F100|Student Services Office|Student Services Office|                |
+| UNT|Research Help Desk|Library|Tutoring Center                       | <- invalid facility ID
+| F012||Library|Tutoring Center                                        | <- malformed data (FacilityName is empty)
+|                                                                      | <- empty line
+| F033|Computer Lab A|Science Building|Computer Lab                    |
+| F171| |Engineering Building|Computer Lab                             | <- malformed data
+| F008|Tutoring Center|Library|Tutoring Center                         | <- rejected duplicate (2)
+| F171|Computer Lab C|Engineering Building|Computer Lab                |
+------------------------------------------------------------------------
+
+Collisions Strategy (Separate Chaining):
+
+1. bucket 5: F001 and F033
+2. bucket 9: F005 and F037
+3. bucket 11: F007 and F999
+4. bucket 12: F008 and F171
+5. bucket 37: F010 and F042
+
+Total number of collisions for testdata/facilities.txt: 5 (THIS IS SHOWN IN the "Project2MilestoneHashTableTestDataFacilities.png" in the "images" folder)
+Number of rejected items (duplicates): 2
+
+PS: see attached screenshots in the "images" folder
 
 _______________________
         Member 2
