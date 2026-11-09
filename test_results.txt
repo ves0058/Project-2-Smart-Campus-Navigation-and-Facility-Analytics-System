@@ -1,83 +1,518 @@
-========== Test Results (Working with invalid data/inputs): ==========
+# M1 Test Results
 
-_______________________
-        Member 1
-_______________________
+Test Number: 1
 
-Name: Rodion Dvoretskii
+Description: [M1] Valid records and comment lines in sample data files.
 
-buildings.txt:
------------------------------
-| # BuildingName            | <- comment line
-| Library                   |
-| Student Union             |
-|                           | <- empty line
-| Science Building          |
-| Engineering Building      |
-| #$%^&*(IUYGFDSE$R%^&*(876 | <- comment line
-| Library                   | <- duplicate
-| Business Building         |
-| Gym                       |
-|                           | <- empty line
-| Observatory               |
-| 345678KJHGFD$%^&*         | <- malformed data
------------------------------
+Input: departments.txt, data/connections.txt, buildings.txt, facilities.txt.
 
-facilities.txt:
-------------------------------------------------------------------------
-| # FacilityID|FacilityName|BuildingName|Category                      | <- comment line
-| F001|Main Reading Room|Library|Library                               |
-|                                                                      | <- empty line
-| F002|Tutoring Center|Library|Tutoring Center                         |
-| F003|Student Services Office|Student Union|Student Services Office   |
-| F004|Computer Lab A|Science Building|Computer Lab                    |
-|         F005|Room 101|Engineering Building|Classroom                 | <- leading and trailing whitespaces
-| F006|Computer Lab B|Engineering Building|Computer Lab                |
-| F999|Fitness Center|Gym|Recreation                                   |
-| F004|Research Help Desk|Library|Library                              | <- rejected duplicate (1)
-| F007      |Room 101|Business Building|Classroom                      | <- leading and trailing whitespaces
-| F008|Fitness Center|Gym|Recreation                                   |
-| F009|Room 205|      Science Building|Classroom                       | <- leading and trailing whitespaces
-| F010|Research Help Desk|Library|Library                              |
-| F042|Fitness Center|Gym|Recreation10                                 |
-| F037|Research Help Desk|Library|Tutoring Center                      |
-| rd0824|Student Services Office|Student Union|Student Services Office | <- invalid facility ID
-| f011|Research Help Desk|Library|Tutoring Center                      |
-| F100|Student Services Office|Student Services Office|                |
-| UNT|Research Help Desk|Library|Tutoring Center                       | <- invalid facility ID
-| F012||Library|Tutoring Center                                        | <- malformed data (FacilityName is empty)
-|                                                                      | <- empty line
-| F033|Computer Lab A|Science Building|Computer Lab                    |
-| F171| |Engineering Building|Computer Lab                             | <- malformed data
-| F008|Tutoring Center|Library|Tutoring Center                         | <- rejected duplicate (2)
-| F171|Computer Lab C|Engineering Building|Computer Lab                |
-------------------------------------------------------------------------
+Expected Result: Valid records should be accepted, comment lines should be skipped, and all files should load without errors.
 
-Collisions Strategy (Separate Chaining):
+Actual Result:
+- departments.txt: 7 accepted, 0 rejected.
+- data/connections.txt: 6 accepted, 0 rejected.
+- buildings.txt: 7 accepted, 0 rejected.
+- facilities.txt: 10 accepted, 0 rejected.
+- Comment lines at line 1 were correctly skipped.
+- Hash table capacity: 101, entries: 10, collisions: 0.
 
-1. bucket 5: F001 and F033
-2. bucket 9: F005 and F037
-3. bucket 11: F007 and F999
-4. bucket 12: F008 and F171
-5. bucket 37: F010 and F042
+Status: PASS
 
-Total number of collisions for testdata/facilities.txt: 5 (THIS IS SHOWN IN the "Project2MilestoneHashTableTestDataFacilities.png" in the "images" folder)
-Number of rejected items (duplicates): 2
+---
 
-PS: see attached screenshots in the "images" folder
+Test Number: 2
 
-_______________________
-        Member 2
-_______________________
+Description: [M1] Missing building data file.
 
-Name:
+Input: Temporarily renamed data/buildings.txt to data/buildings_backup.txt.
 
+Expected Result: The program should display an error saying that the building file cannot be accessed.
 
+Actual Result:
+- Error: File data/buildings.txt cannot be accessed.
+- Building loading reported 0 accepted, 0 rejected.
+- Connections and facilities could not find their referenced buildings.
+- The program continued to display the main menu.
 
-_______________________
-        Member 3
-_______________________
+Status: PASS
 
-Name:
+---
 
+Test Number: 3
 
+Description: [M1] Duplicate building names differing only by capitalization.
+
+Input: Added "library" as a separate entry while "Library" already existed in buildings.txt.
+
+Expected Result: The program should recognize the duplicate regardless of capitalization, reject the second entry, and keep the original building.
+
+Actual Result:
+- Warning: [data/buildings.txt:3] Duplicate building: Library.
+- File name: "buildings.txt", Line number: 3, Reason: duplicate.
+- buildings.txt: 7 accepted, 1 rejected.
+
+Status: PASS
+
+---
+
+Test Number: 4
+
+Description: [M1] Duplicate facility IDs differing only by capitalization.
+
+Input: Added "f001" while "F001" already existed in data/facilities.txt.
+
+Expected Result: The program should recognize the duplicate ID regardless of capitalization, reject the second record, and keep the original facility.
+
+Actual Result:
+- File name: "facilities.txt", Line number: 3, Reason: duplicate is rejected.
+- facilities.txt: 10 accepted, 1 rejected.
+- Hash table capacity: 101, entries: 10, collisions: 0.
+
+Status: PASS
+
+---
+
+Test Number: 5
+
+Description: [M1] Unknown building references in connections.
+
+Input: Changed one valid connection to reference "Fake Building", which does not exist in buildings.txt.
+
+Expected Result: The program should reject the invalid connection and continue loading the remaining valid connections.
+
+Actual Result:
+- File name: "data/connections.txt", Line number: 2, Reason: Building Fake Building does not exist in buildings list.
+- data/connections.txt: 5 accepted, 1 rejected.
+
+Status: PASS
+
+---
+
+Test Number: 6
+
+Description: [M1] Duplicate and reversed connections.
+
+Input: Added the existing connection Library|Student Union twice, with the second entry reversed as Student Union|Library.
+
+Expected Result: The program should reject both duplicate connections, even when the building order is reversed, and keep the original connection.
+
+Actual Result:
+- Line 8: Connection between Library and Student Union already exists.
+- Line 9: Connection between Student Union and Library already exists.
+- data/connections.txt: 6 accepted, 2 rejected.
+
+Status: PASS
+
+---
+
+Test Number: 7
+
+Description: [M1] Unknown department parent.
+
+Input: Added "Test Department|Unknown Parent" to data/departments.txt.
+
+Expected Result: The program should reject the department because its parent does not exist.
+
+Actual Result:
+- File name: "departments.txt", Line number: 9, Reason: Parent department not found.
+- departments.txt: 7 accepted, 1 rejected.
+
+Status: PASS
+
+---
+
+Test Number: 8
+
+Description: [M1] Facility ID searches.
+
+Input: Searched using F001, f001, ABC, and F999.
+
+Expected Result: The program should find existing IDs, accept lowercase input, reject invalid formats, and report IDs that do not exist.
+
+Actual Result:
+- F001: Found Main Reading Room | Library | Library.
+- f001: Converted to uppercase and found the same facility.
+- ABC: Rejected with an invalid-format message.
+- F999: Reported that no facility with that ID exists.
+
+Status: PASS
+
+---
+
+Test Number: 9
+
+Description: [M1] Hash table collision handling using separate chaining.
+
+Input: Added F033|Collision Test|Library|Library to facilities.txt. F033 and the existing ID F001 produce the same hash index (5).
+
+Expected Result: The program should detect the collision, use separate chaining to store both facilities, and keep both records in the hash table.
+
+Actual Result:
+- facilities.txt: 11 accepted, 0 rejected.
+- Hash capacity: 101.
+- Entries: 11.
+- Collisions: 1.
+
+Status: PASS
+
+---
+
+Test Number: 10
+
+Description: [M1] Blank lines in data files.
+
+Input: Added a blank line between valid building records in buildings.txt.
+
+Expected Result: The program should identify and skip blank lines without affecting valid records or stopping file loading.
+
+Actual Result:
+- File name: "buildings.txt", Line number: 1, Reason: comment line.
+- File name: "buildings.txt", Line number: 2, Reason: empty line.
+- buildings.txt: 7 accepted, 0 rejected.
+- The program continued to display the main menu.
+
+Status: PASS
+
+---
+
+Test Number: 11
+
+Description: [M1] Records with too few or too many fields.
+
+Input: Added two invalid records to data/connections.txt: Library (too few fields) and Library|Gym|ExtraField (too many fields).
+
+Expected Result: The program should identify and reject both invalid records while continuing to load the valid connections.
+
+Actual Result:
+- File name: "data/connections.txt", Line number: 2, Reason: Malformed line.
+- File name: "data/connections.txt", Line number: 3, Reason: Malformed line.
+- data/connections.txt: 6 accepted, 2 rejected.
+- The program continued to display the main menu.
+
+Status: PASS
+
+---
+
+Test Number: 12
+
+Description: [M1] Duplicate-key insertion attempt in the hash table.
+
+Input: Added F001|Duplicate Test|Library|Library to data/facilities.txt while F001 already existed.
+
+Expected Result: The hash table should reject the duplicate ID, keep the original facility, and leave the collision count unchanged.
+
+Actual Result:
+- File name: "facilities.txt", Line number: 3, Reason: duplicate is rejected.
+- facilities.txt: 10 accepted, 1 rejected.
+- Hash table capacity: 101.
+- Entries: 10.
+- Collisions: 0.
+- The program continued to display the main menu.
+
+Status: PASS
+
+---
+
+Test Number: 13
+
+Description: [M1] BFS from a connected building.
+
+Input: Selected menu option 5 and entered Library as the starting building.
+
+Expected Result: BFS should visit all buildings connected to Library, display their shortest distances, and avoid visiting the same building repeatedly.
+
+Actual Result:
+- Library (distance 0).
+- Student Union (distance 1).
+- Business Building (distance 1).
+- Science Building (distance 2).
+- Gym (distance 2).
+- Engineering Building (distance 3).
+
+Status: PASS
+
+---
+
+Test Number: 14
+
+Description: [M1] BFS from an isolated building.
+
+Input: Selected menu option 5 and entered Observatory as the starting building.
+
+Expected Result: BFS should display only Observatory at distance 0, report 1 of 7 buildings reachable, and finish normally.
+
+Actual Result:
+- Observatory (distance 0).
+- Reachable: 1 of 7 buildings.
+
+Status: PASS
+
+---
+
+Test Number: 15
+
+Description: [M1] BFS with an unknown starting building.
+
+Input: Selected menu option 5 and entered Bsines as the starting building.
+
+Expected Result: The program should display an error for an unknown building and allow the user to try again without crashing.
+
+Actual Result:
+- Node: Bsines does not exist in the current Graph.
+- The program displayed an error message and allowed another attempt.
+
+Status: PASS
+
+---
+
+Test Number: 16
+
+Description: [M1] BFS with multiple connected components.
+
+Input: Selected menu option 5 and entered Library as the starting building.
+
+Expected Result: BFS should visit only buildings connected to Library and leave out buildings in separate components.
+
+Actual Result:
+- Library (distance 0).
+- Student Union (distance 1).
+- Business Building (distance 1).
+- Science Building (distance 2).
+- Gym (distance 2).
+- Engineering Building (distance 3).
+- Observatory was not visited.
+
+Status: PASS
+
+---
+
+Test Number: 17
+
+Description: [M1] Unknown department parent.
+
+Input: Selected menu option 6, entered Test Department as the department name, and entered test parent as the parent name.
+
+Expected Result: The program should reject the department because the parent does not exist.
+
+Actual Result:
+- Parent department not found.
+- Department was not added.
+
+Status: PASS (duplicate of Test 7; not counted as a separate test).
+
+---
+
+Test Number: 18
+
+Description: [M1] Search for the root department.
+
+Input: Selected menu option 7 and searched for University.
+
+Expected Result: The program should find the root department and display its information.
+
+Actual Result:
+- Department: University.
+- Parent: None.
+- Direct children: 2.
+- Depth: 0.
+
+Status: PASS
+
+---
+
+Test Number: 19
+
+Description: [M1] Search for a non-root department.
+
+Input: Selected menu option 7 and searched for Computer Science.
+
+Expected Result: The program should find the department and display its parent, direct children, and depth.
+
+Actual Result:
+- Department: Computer Science.
+- Parent: College of Engineering.
+- Direct children: 0.
+- Depth: 2.
+
+Status: PASS
+
+---
+
+Test Number: 20
+
+Description: [M1] Search for a department that does not exist.
+
+Input: Selected menu option 7 and searched for Fake Department.
+
+Expected Result: The program should display a message saying that the department does not exist.
+
+Actual Result:
+- Department not found.
+
+Status: PASS
+
+---
+
+Test Number: 21
+
+Description: [M1] Reject a duplicate department.
+
+Input: Selected menu option 6 and tried to add Computer Science, which already exists.
+
+Expected Result: The program should reject the duplicate department and keep the existing entry.
+
+Actual Result:
+- Department already exists.
+
+Status: PASS
+
+---
+
+Test Number: 22
+
+Description: [M1] Preorder traversal of the department tree.
+
+Input: Selected menu option 9.
+
+Expected Result: The program should display departments in preorder, visiting each parent before its children.
+
+Actual Result:
+- University.
+- College of Engineering.
+- Computer Science.
+- Electrical Engineering.
+- College of Science.
+- Mathematics.
+- Physics.
+
+Status: PASS
+
+---
+
+Test Number: 23
+
+Description: [M1] Invalid menu input.
+
+Input: Entered abc at the main menu.
+
+Expected Result: The program should reject the input and return to the menu without crashing.
+
+Actual Result:
+- Wrong choice! try again.
+- The program continued running.
+
+Status: PASS
+
+---
+
+Test Number: 24
+
+Description: [M1] Text entered at a numeric menu prompt.
+
+Input: Entered hello at the main menu's Enter Choice prompt.
+
+Expected Result: The program should reject the non-numeric input and continue running.
+
+Actual Result:
+- Wrong choice! try again.
+- The program continued running.
+
+Status: PASS
+
+---
+
+Test Number: 25
+
+Description: [M1] Department names containing spaces.
+
+Input: Selected menu option 6, entered Artificial Intelligence, and used College of Science as the parent.
+
+Expected Result: The program should accept the full department name, including spaces, and add it successfully.
+
+Actual Result:
+- Department added successfully.
+
+Status: PASS
+
+---
+
+Test Number: 26
+
+Description: [M1] Reject a blank department name.
+
+Input: Selected menu option 6 and pressed Enter without entering a department name.
+
+Expected Result: The program should reject the empty name and avoid adding it.
+
+Actual Result:
+- Department name cannot be empty.
+
+Status: PASS
+
+---
+
+Test Number: 27
+
+Description: [M1] Repeat operations after an input error.
+
+Input:
+1. Selected option 6 and entered a blank department name.
+2. Selected option 7 and searched for University.
+
+Expected Result: The program should recover from the invalid input, return to the main menu, and allow another operation.
+
+Actual Result:
+- Department name cannot be empty.
+- The program returned to the main menu.
+- University was found successfully.
+
+Status: PASS
+
+---
+
+Test Number: 28
+
+Description: [M1] Add a root department to an empty tree.
+
+Input: Emptied departments.txt, selected menu option 6, and entered University.
+
+Expected Result: The program should add the first department as the root without asking for a parent.
+
+Actual Result:
+- Root department added successfully.
+- No parent prompt was displayed.
+
+Status: PASS
+
+---
+
+Test Number: 29
+
+Description: [M1] Display a tree containing only the root.
+
+Input: Selected menu option 8 after adding University as the root.
+
+Expected Result: The program should display only the root department without errors.
+
+Actual Result:
+- University.
+- No child departments were displayed.
+
+Status: PASS
+
+---
+
+Test Number: 30
+
+Description: [M1] Check the hash table collision-counting functionality.
+
+Input: Checked the collision-counting code in HashTable.cpp and the facility-loading code in Manager.cpp.
+
+Expected Result: The program should check whether a bucket is already occupied before inserting a facility, update the collision counter when a collision occurs, and display the hash table capacity, number of entries, and total collisions after loading facilities.
+
+Actual Result:
+- The code checks whether a bucket is already occupied before inserting a facility.
+- The collision counter is updated when a collision occurs.
+- The hash table capacity, number of entries, and total collisions are displayed after loading facilities.
+
+Status: Code review completed. The separate collision test data directory and HASH-7 diagnostic still need to be tested.

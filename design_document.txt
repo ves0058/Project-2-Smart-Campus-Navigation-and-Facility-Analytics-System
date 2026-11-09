@@ -96,10 +96,110 @@ _______________________
         Member 2
 _______________________
 
+========== Design Document: ==========
+
+_______________________
+        Member B
+_______________________
+
 Name: Arumit Kumar
 
-Description: graph representation with justification, main classes and modules.
+Description:
+CampusGraph: represents the campus buildings and the walkways connecting them. It loads building and connection information from input files, displays the graph, calculates graph statistics, and performs BFS to determine which buildings are reachable from a starting building.
 
+Graph Data Structures:
+
+1. `vector<string> names`
+   - Stores the names of all campus buildings.
+   - Each building is assigned an index based on its position in the vector.
+
+2. `vector<vector<int>> adjList`
+   - Stores the connections between buildings using their integer indexes.
+   - Each inner vector contains the indexes of buildings directly connected to that building.
+
+Graph Representation: Adjacency List
+
+The project uses an adjacency list implemented with a vector of vectors.
+
+Each building represents a vertex, and each walkway between two buildings represents an edge.
+
+The graph is undirected, meaning that if Building A is connected to Building B, Building B is also connected to Building A. Therefore, each connection is stored in both buildings' adjacency lists.
+
+This representation was chosen because a campus graph generally has fewer connections than the number of all possible connections between buildings. An adjacency list avoids storing unnecessary connections and makes it easy to access the neighbors of a building.
+
+Graph Vertices and Edges:
+
+- Vertices (V): Represent campus buildings, such as Library, Gym, and Science Building.
+- Edges (E): Represent walkways connecting two buildings.
+- The graph is undirected and unweighted. Each edge represents a direct connection between two buildings, without assigning a distance or cost.
+
+Graph Algorithms:
+
+Breadth-First Search (BFS):
+
+The project uses Breadth-First Search to determine which buildings can be reached from a selected starting building.
+
+BFS uses:
+- Queue: Processes buildings in First-In, First-Out (FIFO) order.
+- Visited vector (`status`): Keeps track of buildings that have already been visited.
+- Distance vector (`distance`): Stores the number of connections from the starting building.
+
+The BFS algorithm works as follows:
+
+1. The user enters a starting building.
+2. The program checks whether the building exists in the graph.
+3. The starting building is marked as visited and assigned distance 0.
+4. The program processes the queue and checks each building's neighboring buildings.
+5. Unvisited neighbors are marked as visited, assigned a distance, and added to the queue.
+6. The process continues until the queue is empty.
+7. The program displays the reachable buildings and their distances.
+
+The algorithm also handles isolated buildings and invalid starting building names.
+
+Other Implemented Graph Operations:
+
+- `loadBuildings()`: Loads building names from the input file and rejects duplicate building names.
+- `loadConnections()`: Loads connections and rejects malformed records, unknown buildings, self-connections, and duplicate or reversed connections.
+- `findNode()`: Searches for a building using case-insensitive name comparison.
+- `addEdge()`: Adds an undirected connection between two buildings.
+- `viewBuildingsandConnection()`: Displays buildings and their neighboring buildings.
+- `generateGraphStats()`: Displays the total number of buildings, total connections, and degree of each building.
+
+Time Complexity:
+
+Let:
+- V = Number of vertices (buildings).
+- E = Number of edges (connections).
+
+Main Operations:
+
+- `findNode()`: O(V)
+- `getOrAddNode()`: O(V)
+- `addEdge()`: O(V)
+- `loadBuildings()`: O(V²), because each new building is checked against previously loaded buildings to detect duplicates.
+- `loadConnections()`: O(E × V) in the worst case, because building names are searched for each connection.
+- `viewBuildingsandConnection()`: O(V + E), because the program visits every building and its adjacency list.
+- `generateGraphStats()`: O(V + E), because it calculates the total connections by examining the adjacency lists.
+
+BFS Time Complexity:
+- O(V + E), because BFS visits each reachable building and examines its connections.
+
+Graph Space Complexity:
+
+- O(V + E), where V is the number of buildings and E is the number of connections.
+- The `names` vector stores V building names.
+- The adjacency list stores 2E entries because every undirected connection is stored in both directions.
+- BFS requires O(V) additional space for the visited vector, distance vector, and queue.
+
+Design Justification:
+
+An adjacency list was selected because it is memory-efficient for a campus graph where buildings usually connect to only a small number of other buildings.
+
+Compared with an adjacency matrix, an adjacency list does not require storing a V × V matrix containing mostly empty connections.
+
+Using `vector<string>` allows the program to store readable building names, while `vector<vector<int>>` allows connections to be stored using integer indexes.
+
+This design also makes it straightforward to add connections, display neighboring buildings, calculate graph statistics, and perform BFS.
 
 _______________________
         Member 3

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <stack>
 #include <utility>
+#include <limits>
 
 DepartmentTree::DepartmentTree() {
     root = nullptr;
@@ -214,8 +215,10 @@ void DepartmentTree::addDepartment() {
     string departmentName;
     string parentName;
 
+   cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     cout << "Enter department name: ";
-    getline(cin >> ws, departmentName);
+    getline(cin, departmentName);
 
     if (departmentName.empty()) {
         cout << "Department name cannot be empty.\n";
