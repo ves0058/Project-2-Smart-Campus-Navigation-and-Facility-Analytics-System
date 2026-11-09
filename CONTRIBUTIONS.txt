@@ -40,14 +40,17 @@ _______________________
 
 Name: Vic Scorgie
 
-Classes: 
+Classes: Departments, Trees, Traversals, Other documents
 
-Files:
+Files: DepartmentTree.h, DepartmentTree.cpp, README.txt
 
 Description:
--> Worked on the Department Tree module for the project
--> Worked on implementing the general tree structure for the academic departments
--> Worked on loading and organizing department information
--> Implemented department-related operations, including adding departments, searching, displaying the hierarchy, and the preorder traversal
--> Worked on the README file
--> Worked on the complexity anaylisis
+-> Implemented the DepartmentTree data structure to help organize the campus departments into a general tree hierarchy;
+-> Created the DepartmentNode structure to store department info and to help maintain connections between the parent and child nodes;
+-> Created a function that is able to read and load files such as departments.txt and build the hierarchy based on the parent-child nodes;
+-> Created a function that is able to insert new departments into the tree while also checking for department info
+-> Created a search function to locate departments within the hierarchy;
+-> Implemented the preorder traversal to visit and display the departments in the correct order;
+-> Ensured that there were ways to check for invalid or missing department names;
+-> Tested both files using a test program to verify that loading, searching, insertion, hierarchy display, and traversal worked correctly;
+-> Developed my module on my own branch "DepartmentTree_VicScorgie", where most of my commits are located;
