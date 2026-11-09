@@ -62,7 +62,7 @@ Collisions Strategy (Separate Chaining):
 5. bucket 37: F010 and F042
 
 Total number of collisions for testdata/facilities.txt: 5 (THIS IS SHOWN IN the "Project2MilestoneHashTableTestDataFacilities.png" in the "images" folder)
-Number of rejected items (diplicates): 2
+Number of rejected items (duplicates): 2
 
 PS: see attached screenshots in the "images" folder
 
