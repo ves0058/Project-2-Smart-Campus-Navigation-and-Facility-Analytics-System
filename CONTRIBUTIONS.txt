@@ -40,6 +40,7 @@ Description:
 -> Implemented bidirectional graph; 
 -> Developed a Breadth-First Search traversal method (bfs) utilizing an std::queue to compute shortest path distances from a user-specified starting building and calculate overall reachable building counts;
 -> Built visualization and analysis utilities (viewBuildingsandConnection and generateGraphStats) to display graph stats, individual building neighbor connections, total building/edge counts, and vertex degree distributions;
+
 _______________________
         Member 3
 _______________________

@@ -52,6 +52,17 @@ facilities.txt:
 | F008|Tutoring Center|Library|Tutoring Center                         | <- rejected duplicate
 | F171|Computer Lab C|Engineering Building|Computer Lab                |
 ------------------------------------------------------------------------
+
+Collisions Strategy (Separate Chaining):
+
+1. bucket 5: F001 and F033
+2. bucket 9: F005 and F037
+3. bucket 11: F007 and F999
+4. bucket 12: F008 and F171
+5. bucket 37: F010 and F042
+
+Total number of collisions for testdata/facilities.txt: 5 (THIS IS SHOWN IN the "Project2MilestoneHashTableTestDataFacilities.png" in the "images" folder)
+
 PS: see attached screenshots in the "images" folder
 
 _______________________
