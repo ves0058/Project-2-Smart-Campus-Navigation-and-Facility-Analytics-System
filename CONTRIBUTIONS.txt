@@ -1,0 +1,36 @@
+========== Contributions: ==========
+_______________________
+        Member 1
+_______________________
+
+Name: Rodion Dvoretskii
+
+Classes: Facility, HashTable, Manager
+
+Files: Facility.h, Facility.cpp, HashTable.h, HashTable.cpp, Manager.h, Manager.cpp, Main.cpp, Makefile
+
+Description: Implemented user-defined hash table data structure; created a Facility class (object); built a Manager class that wraps all HashTable methods and allows invoking them through itself; added validation functions/methods for building names and facility attributes; wrote a Makefile for fast compilation of the whole project; created helper functions such as trim (removes leading and trailing whitespace) and equalsIgnoreCase (compares two strings ignoring case); wrote two file-reading functions for building.txt and facilities.txt; implemented separate chaining technique and advanced string hashing function (DJB2); added logic that count collisions as they occur. Developed everything on my own branch "HashTableImplementationRodion", commited regularly, coordinated changes with teammates, and merged them into "main" branch.
+
+_______________________
+        Member 2
+_______________________
+
+Name:
+
+Classes:
+
+Files:
+
+Description:
+
+_______________________
+        Member 3
+_______________________
+
+Name:
+
+Classes:
+
+Files:
+
+Description:
