@@ -1,0 +1,13 @@
+**Group Members and Responsibilities**
+
+Member A: 
+
+Member B: 
+
+Member C: Vic
+  -Worked on the Department Tree module for the project
+  -Worked on implementing the general tree structure for the academic departments
+  -Worked on loading and organizing department information
+  -Implemented department-related operations, including adding departments, searching, displaying the hierarchy, and the preorder traversal
+  -Worked on the README file
+  -Worked on the complexity anaylisis
