@@ -1,0 +1,26 @@
+========== Design Document: ==========
+
+_______________________
+        Member 1
+_______________________
+
+Name: Rodion Dvoretskii
+
+Description: hash function, collision strategy with justification, collision-counting definition, capacity.
+
+_______________________
+        Member 2
+_______________________
+
+Name: Arumit Kumar
+
+Description: graph representation with justification, main classes and modules.
+
+
+_______________________
+        Member 3
+_______________________
+
+Name: Vic Scorgie
+
+...

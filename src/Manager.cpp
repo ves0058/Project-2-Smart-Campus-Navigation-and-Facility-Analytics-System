@@ -309,14 +309,6 @@ void Manager::loadFacilitiesFromFile(string fileName)
 			continue;
 		}
 
-		if (map.isDuplicate(FacilityID))
-		{
-			cout << "File name: \"facilities.txt\", Line number: "<< lineNumber<< ", Reason: duplicate is rejected." << endl;
-			lineNumber++;
-			rejected++;
-			continue;
-		}
-
 		if (!isFacilityIDValid(FacilityID))
 		{
 			cout << "File name: \"facilities.txt\", Line number: "<< lineNumber<< ", Reason: invalid facility ID." << endl;
@@ -327,6 +319,14 @@ void Manager::loadFacilitiesFromFile(string fileName)
 		if (FacilityID[0] == 'f')
 		{
 			FacilityID[0] = 'F';
+		}
+
+		if (map.isDuplicate(FacilityID))
+		{
+			cout << "File name: \"facilities.txt\", Line number: "<< lineNumber<< ", Reason: duplicate is rejected." << endl;
+			lineNumber++;
+			rejected++;
+			continue;
 		}
 
 		Facility facility(FacilityID, FacilityName, BuildingName, Category);
