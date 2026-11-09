@@ -1,4 +1,5 @@
 ========== Contributions: ==========
+
 _______________________
         Member 1
 _______________________
@@ -9,7 +10,17 @@ Classes: Facility, HashTable, Manager
 
 Files: Facility.h, Facility.cpp, HashTable.h, HashTable.cpp, Manager.h, Manager.cpp, Main.cpp, Makefile
 
-Description: Implemented user-defined hash table data structure; created a Facility class (object); built a Manager class that wraps all HashTable methods and allows invoking them through itself; added validation functions/methods for building names and facility attributes; wrote a Makefile for fast compilation of the whole project; created helper functions such as trim (removes leading and trailing whitespace) and equalsIgnoreCase (compares two strings ignoring case); wrote two file-reading functions for building.txt and facilities.txt; implemented separate chaining technique and advanced string hashing function (DJB2); added logic that count collisions as they occur. Developed everything on my own branch "HashTableImplementationRodion", commited regularly, coordinated changes with teammates, and merged them into "main" branch.
+Description: 	
+-> Implemented user-defined hash table data structure; created a Facility class (object); 
+-> built a Manager class that wraps all HashTable methods and allows invoking them through itself; 
+-> added validation functions/methods for building names and facility attributes; 
+-> wrote a Makefile for fast compilation of the whole project; 
+-> created helper functions such as trim (removes leading and trailing whitespace) and equalsIgnoreCase (compares two strings ignoring case); 
+-> wrote two file-reading functions for building.txt and facilities.txt; 
+-> implemented separate chaining technique and advanced string hashing function (DJB2); 
+-> added logic that count collisions as they occur. 
+-> Developed everything on my own branch "HashTableImplementationRodion", commited regularly, coordinated changes with teammates, and merged them into "main" branch.
+-> Worked on the complexity analysis file.
 
 _______________________
         Member 2
@@ -27,10 +38,16 @@ _______________________
         Member 3
 _______________________
 
-Name:
+Name: Vic Scorgie
 
-Classes:
+Classes: 
 
 Files:
 
 Description:
+-> Worked on the Department Tree module for the project
+-> Worked on implementing the general tree structure for the academic departments
+-> Worked on loading and organizing department information
+-> Implemented department-related operations, including adding departments, searching, displaying the hierarchy, and the preorder traversal
+-> Worked on the README file
+-> Worked on the complexity anaylisis
