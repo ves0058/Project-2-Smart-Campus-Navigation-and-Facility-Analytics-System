@@ -107,4 +107,25 @@ _______________________
 
 Name: Vic Scorgie
 
-...
+Description: 
+
+Tree Class: DepartmentTree class manages the campus departments and stores the names of their relationships within the hierarchy
+
+Tree Structure: Implemented a general tree where each DepartmentNode stores a department name, a pointer to its parent node, and a vector of pointers to its child nodes. Allows departments to have multiple child departments.
+
+Insertion and Search Functions: addDepartment() adds a new department under existing parent nodes and checks for duplicate or invalid names. Implemented searchDepartment() to find departments and display their parent, number of direct children, and depth. 
+
+Tree Traversal: Implemented displayHierarchy() to display the department structure with indentation and preorderTraversal() to visit each parent before the children. Utilizes a stack for iterative traversal.
+
+Time Complexity: 
+-> isEmpty(): O(1)
+-> loadFromFile(): O(n²)
+-> addDepartment(): O(n)
+-> searchDepartment(): O(n)
+-> displayHierarchy(): O(n)
+-> preorderTraversal(): O(n)
+-> Destructor: O(n)
+
+Space Complexity: O(n) for storing the tree. The traversal and search operations can use additional O(n) space for their stacks
+
+Design Justification: A general tree design was chosen because campus departments can naturally form a hierarchy, where one department can have multiple subdepartments. Using a vector of child pointers allows the tree to support any number of children without a fixed limit. 
