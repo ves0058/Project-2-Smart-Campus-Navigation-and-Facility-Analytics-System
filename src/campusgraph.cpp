@@ -1,3 +1,4 @@
+
 #include "campusgraph.h"
 #include <fstream>
 #include <sstream>
@@ -47,7 +48,7 @@ void CampusGraph::loadBuildings(const string& filename){
 
         // Check if building already exists using normalName..
         bool duplicate = false;
-        for(int i = 0; i < names.size(); i++){
+        for(size_t i = 0; i < names.size(); i++){
             if(normalName(names[i]) == normalName(buildingName)){
                 duplicate = true;
                 break;
@@ -258,7 +259,7 @@ if the node alredy exist we don't create it again and if the node
 don't exist we can create it! */
 
 int CampusGraph::getOrAddNode(const string& name){
-    for(int i =0; i<names.size(); i++){
+    for(size_t i = 0; i < names.size(); i++){
         if(names[i] == name){
             return i;
         }
@@ -278,7 +279,7 @@ int CampusGraph::getOrAddNode(const string& name){
 //cheacking the names vector; invalid buildings will be disregarded!
 bool CampusGraph::isAvalidBuilding(const string& buildingName){
     bool isValid = false;
-    for(int i=0; i<names.size(); i++){
+    for(size_t i = 0; i < names.size(); i++){
         if(names[i] == buildingName){
             isValid = true;
         }
@@ -314,7 +315,7 @@ string CampusGraph::normalName(const string& name){
 
 //BFS healper function; to make sure that the node actually exist in the graph
 int CampusGraph::findNode(const string& nodeToFind) {
-    for(int i = 0; i < names.size(); i++) {
+    for(size_t i = 0; i < names.size(); i++) {
         if(normalName(names[i]) == normalName(nodeToFind)) {
             return i;
         }
@@ -391,11 +392,13 @@ void CampusGraph::bfs(){
             //this is where it outputs the distance and name of the building
             cout << names[u] << " (distance " << distance[u] << ")" << endl;
 
-            for (int i = 0; i < adjList[u].size(); i++) {
-                int v = adjList[u][i]; {
-                if (!status[v]) 
+            for (size_t i = 0; i < adjList[u].size(); i++)
+            {
+                int v = adjList[u][i];
+
+                if (!status[v]) {
                     status[v] = true;
-                    distance[v] = distance[u] +1 ;
+                    distance[v] = distance[u] + 1;
                     que.push(v);
                 }
             }
@@ -403,7 +406,7 @@ void CampusGraph::bfs(){
         cout << "\n\n";
 
         int reachableCounter = 0;
-        for(int i = 0; i < status.size(); i++){
+        for(size_t i = 0; i < status.size(); i++){
         if(status[i] == true){
         reachableCounter++;
     }
@@ -426,7 +429,7 @@ void CampusGraph::viewBuildingsandConnection()const{
     }
 
     //outputting the connections
-    for (int i = 0; i < names.size(); i++)
+    for (size_t i = 0; i < names.size(); i++)
     {
 
         cout << names[i] << endl;
@@ -435,7 +438,7 @@ void CampusGraph::viewBuildingsandConnection()const{
         if(adjList[i].empty()){
             cout<<"\t\t--> (no connections)"<<endl;
         }
-        for (int j = 0; j < adjList[i].size(); j++)
+        for (size_t j = 0; j < adjList[i].size(); j++)
     {
     int neighbor = adjList[i][j];
     cout << "\t\t-->"<<names[neighbor] << endl;
@@ -451,7 +454,7 @@ void CampusGraph::generateGraphStats()const{
 
     int validConnection =0;
 
-    for(int i =0; i < names.size(); i++){
+    for(size_t i = 0; i < names.size(); i++){
             validConnection += adjList[i].size();
     }
     if(validConnection != 0){
@@ -465,11 +468,8 @@ void CampusGraph::generateGraphStats()const{
 
     cout<<"Buildings Degrees : \n\n";
 
-    for(int i =0; i<names.size(); i++){
+    for(size_t i = 0; i < names.size(); i++){
         cout<<names[i]<<" : "<<adjList[i].size()<<endl;
     }
     cout<<"\n\n";
 }
-
-
-
