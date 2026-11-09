@@ -20,7 +20,7 @@ buildings.txt:
 | Gym                       |
 |                           | <- empty line
 | Observatory               |
-| 345678KJHGFD$%^&*         |
+| 345678KJHGFD$%^&*         | <- malformed data
 -----------------------------
 
 facilities.txt:
