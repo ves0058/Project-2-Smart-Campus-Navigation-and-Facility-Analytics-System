@@ -1,0 +1,71 @@
+========== Test Results (Working with invalid data/inputs): ==========
+
+_______________________
+        Member 1
+_______________________
+
+Name: Rodion Dvoretskii
+
+buildings.txt:
+-----------------------------
+| # BuildingName            | <- comment line
+| Library                   |
+| Student Union             |
+|                           | <- empty line
+| Science Building          |
+| Engineering Building      |
+| #$%^&*(IUYGFDSE$R%^&*(876 | <- comment line
+| Library                   | <- duplicate
+| Business Building         |
+| Gym                       |
+|                           | <- empty line
+| Observatory               |
+| 345678KJHGFD$%^&*         |
+-----------------------------
+
+facilities.txt:
+------------------------------------------------------------------------
+| # FacilityID|FacilityName|BuildingName|Category                      | <- comment line
+| F001|Main Reading Room|Library|Library                               |
+|                                                                      | <- empty line
+| F002|Tutoring Center|Library|Tutoring Center                         |
+| F003|Student Services Office|Student Union|Student Services Office   |
+| F004|Computer Lab A|Science Building|Computer Lab                    |
+|         F005|Room 101|Engineering Building|Classroom                 | <- leading and trailing whitespaces
+| F006|Computer Lab B|Engineering Building|Computer Lab                |
+| F999|Fitness Center|Gym|Recreation                                   |
+| F004|Research Help Desk|Library|Library                              | <- rejected duplicate
+| F007      |Room 101|Business Building|Classroom                      | <- leading and trailing whitespaces
+| F008|Fitness Center|Gym|Recreation                                   |
+| F009|Room 205|      Science Building|Classroom                       | <- leading and trailing whitespaces
+| F010|Research Help Desk|Library|Library                              |
+| F042|Fitness Center|Gym|Recreation10                                 |
+| F037|Research Help Desk|Library|Tutoring Center                      |
+| rd0824|Student Services Office|Student Union|Student Services Office | <- invalid facility ID
+| f011|Research Help Desk|Library|Tutoring Center                      |
+| F100|Student Services Office|Student Services Office|                |
+| UNT|Research Help Desk|Library|Tutoring Center                       | <- invalid facility ID
+| F012||Library|Tutoring Center                                        | <- malformed data (FacilityName is empty)
+|                                                                      | <- empty line
+| F033|Computer Lab A|Science Building|Computer Lab                    |
+| F171| |Engineering Building|Computer Lab                             | <- malformed data
+| F008|Tutoring Center|Library|Tutoring Center                         | <- rejected duplicate
+| F171|Computer Lab C|Engineering Building|Computer Lab                |
+------------------------------------------------------------------------
+PS: see attached screenshots in the README.md
+
+_______________________
+        Member 2
+_______________________
+
+Name:
+
+
+
+_______________________
+        Member 3
+_______________________
+
+Name:
+
+
