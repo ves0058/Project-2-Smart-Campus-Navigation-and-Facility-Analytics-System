@@ -52,7 +52,7 @@ facilities.txt:
 | F008|Tutoring Center|Library|Tutoring Center                         | <- rejected duplicate
 | F171|Computer Lab C|Engineering Building|Computer Lab                |
 ------------------------------------------------------------------------
-PS: see attached screenshots in the README.md
+PS: see attached screenshots in the "images" folder
 
 _______________________
         Member 2
