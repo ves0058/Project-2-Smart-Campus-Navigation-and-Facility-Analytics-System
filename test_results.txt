@@ -34,7 +34,7 @@ facilities.txt:
 |         F005|Room 101|Engineering Building|Classroom                 | <- leading and trailing whitespaces
 | F006|Computer Lab B|Engineering Building|Computer Lab                |
 | F999|Fitness Center|Gym|Recreation                                   |
-| F004|Research Help Desk|Library|Library                              | <- rejected duplicate
+| F004|Research Help Desk|Library|Library                              | <- rejected duplicate (1)
 | F007      |Room 101|Business Building|Classroom                      | <- leading and trailing whitespaces
 | F008|Fitness Center|Gym|Recreation                                   |
 | F009|Room 205|      Science Building|Classroom                       | <- leading and trailing whitespaces
@@ -49,7 +49,7 @@ facilities.txt:
 |                                                                      | <- empty line
 | F033|Computer Lab A|Science Building|Computer Lab                    |
 | F171| |Engineering Building|Computer Lab                             | <- malformed data
-| F008|Tutoring Center|Library|Tutoring Center                         | <- rejected duplicate
+| F008|Tutoring Center|Library|Tutoring Center                         | <- rejected duplicate (2)
 | F171|Computer Lab C|Engineering Building|Computer Lab                |
 ------------------------------------------------------------------------
 
@@ -62,6 +62,7 @@ Collisions Strategy (Separate Chaining):
 5. bucket 37: F010 and F042
 
 Total number of collisions for testdata/facilities.txt: 5 (THIS IS SHOWN IN the "Project2MilestoneHashTableTestDataFacilities.png" in the "images" folder)
+Number of rejected items (diplicates): 2
 
 PS: see attached screenshots in the "images" folder
 
