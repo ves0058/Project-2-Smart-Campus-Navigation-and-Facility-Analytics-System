@@ -341,7 +341,7 @@ void CampusGraph::addEdge(const string& uNodeName, const string& vNodeName){
 void CampusGraph::bfs(){
     cout << "Enter starting building name: ";
     string input;
-    cin.ignore();
+    //cin.ignore();
     getline(cin, input);
 
     // Trim leading whitespace, tabs, and returns

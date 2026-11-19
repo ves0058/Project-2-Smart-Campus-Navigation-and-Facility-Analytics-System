@@ -212,7 +212,7 @@ void DepartmentTree::addDepartment() {
     string departmentName;
     string parentName;
 
-   cin.ignore(numeric_limits<streamsize>::max(), '\n');
+   //cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Enter department name: ";
     getline(cin, departmentName);
