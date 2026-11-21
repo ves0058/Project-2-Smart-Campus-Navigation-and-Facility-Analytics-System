@@ -467,4 +467,133 @@ void CampusGraph::generateGraphStats()const{
 }
 
 
+void CampusGraph::shortestPath(){
+    if(names.empty()){
+        cout << "This graph is currently empty. please load graph data and try again!" << endl;
+        return;
+    }
+
+    cout << "Enter starting building name: ";
+    string startInput;
+    cin.ignore();
+    getline(cin, startInput);
+
+    // Trim leading and trailing whitespace and '\r' for start building
+    int sStart = 0;
+    int sEnd = (int)startInput.size() - 1;
+    while (sStart < (int)startInput.size() && (isspace(startInput[sStart]) || startInput[sStart] == '\r')) {
+        sStart++;
+    }
+    while (sEnd >= sStart && (isspace(startInput[sEnd]) || startInput[sEnd] == '\r')) {
+        sEnd--;
+    }
+
+    if (sStart > sEnd) {
+        cout << "!!!Error: Building name cannot be blank. please try again!!!" << endl;
+        return;
+    }
+
+    string startName = "";
+    for (int i = sStart; i <= sEnd; i++) {
+        startName += startInput[i];
+    }
+
+    cout << "Enter destination building name: ";
+    string destInput;
+    getline(cin, destInput);
+
+    // Trim leading and trailing whitespace and '\r' for destination building
+    int dStart = 0;
+    int dEnd = (int)destInput.size() - 1;
+    while (dStart < (int)destInput.size() && (isspace(destInput[dStart]) || destInput[dStart] == '\r')) {
+        dStart++;
+    }
+    while (dEnd >= dStart && (isspace(destInput[dEnd]) || destInput[dEnd] == '\r')) {
+        dEnd--;
+    }
+
+    if (dStart > dEnd) {
+        cout << "!!!Error: Building name cannot be blank. please try again!!!" << endl;
+        return;
+    }
+
+    string destName = "";
+    for (int i = dStart; i <= dEnd; i++) {
+        destName += destInput[i];
+    }
+
+    // Validate both buildings using findNode
+    int srcNode = findNode(startName);
+    int destNode = findNode(destName);
+
+    if (srcNode == -1 || destNode == -1) {
+        if (srcNode == -1 && destNode != -1) {
+            cout << "!!!Node : " << startName << " Does not exist in the current Graph. please try again!!!" << endl;
+        } else if (srcNode != -1 && destNode == -1) {
+            cout << "!!!Node : " << destName << " Does not exist in the current Graph. please try again!!!" << endl;
+        } else {
+            cout << "!!!Nodes : " << startName << " and " << destName << " Do not exist in the current Graph. please try again!!!" << endl;
+        }
+        return;
+    }
+
+    cout << "========== SHORTEST PATH (BFS) ==========\n";
+    cout << "+++++++++++++++++++++++++++++++++++++++++" << endl;
+
+    // Edge case: same start and destination building
+    if (srcNode == destNode) {
+        cout << names[srcNode] << endl;
+        cout << "Number of connections: 0" << endl;
+        return;
+    }
+
+    vector<bool> status(names.size(), false);
+    vector<int> parent(names.size(), -1);
+    queue<int> que;
+
+    que.push(srcNode);
+    status[srcNode] = true;
+
+    while (!que.empty()) {
+        int u = que.front();
+        que.pop();
+
+        if (u == destNode) {
+            break;
+        }
+
+        // Traverse neighbors in insertion order so ties follow neighbor order
+        for (size_t i = 0; i < adjList[u].size(); i++) {
+            int v = adjList[u][i];
+
+            if (!status[v]) {
+                status[v] = true;
+                parent[v] = u;
+                que.push(v);
+            }
+        }
+    }
+
+    // If destination was never reached
+    if (!status[destNode]) {
+        cout << "No path exists between " << names[srcNode] << " and " << names[destNode] << "." << endl;
+        return;
+    }
+
+    // Reconstruct path from destination back to start using parent vector
+    vector<int> path;
+    int curr = destNode;
+    while (curr != -1) {
+        path.push_back(curr);
+        curr = parent[curr];
+    }
+
+    // Print one building per line from start to destination
+    for (int i = (int)path.size() - 1; i >= 0; i--) {
+        cout << names[path[i]] << endl;
+    }
+    cout << "Number of connections: " << (path.size() - 1) << endl;
+}
+
+
 

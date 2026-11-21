@@ -16,6 +16,7 @@ class CampusGraph
 
     
     public:
+    //M1
     void loadBuildings(const string& filename);//load building from the data file
     void loadConnections(const string& filename);//loads connections from the data file
     void addEdge(const string& uName, const string& vName);//creates edges between buildings
@@ -23,6 +24,10 @@ class CampusGraph
     void viewBuildingsandConnection()const;// outputs every building and it's connections
     void generateGraphStats()const;// outputs graph stats
     string inputFromUser(const string& input);//get's the input from user to run a BFS search
+
+    //Final 
+    void shortestPath();//Finds the shortest path between two buildings using BFS
+    void connectivityReport() const;// Generates a connectivity report About graph!
     
 };
 #endif
