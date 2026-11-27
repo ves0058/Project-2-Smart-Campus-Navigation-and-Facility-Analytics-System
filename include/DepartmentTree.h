@@ -27,10 +27,6 @@ public:
     void searchDepartment(); // Searches for a department
     void displayHierarchy(); // Displays the department hierarchy
     void preorderTraversal(); // Displays the departments using preorder traversal
-
-    void postorderTraversal(); // Displays postorder traversal
-    void levelOrderTraversal(); // Displays level order traversal
-    void departmentStatistics(); // Displays department statistics
 };
 
 #endif
