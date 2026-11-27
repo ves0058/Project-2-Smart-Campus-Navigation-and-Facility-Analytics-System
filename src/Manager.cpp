@@ -24,8 +24,8 @@ void Manager::printMenu() // prints the menu of all possible options
     cout << "5.  Find reachable buildings (BFS)" << endl;
     cout << "6.  Add department" << endl;
     cout << "7.  Search department" << endl;
-    cout << "8.  Display department hierarchy" << endl;
-    cout << "9.  Run preorder traversal" << endl;
+    cout << "8. BFS" << endl;
+    cout << "17. Connectivity report" << endl;
     cout << "10. Exit" << endl;
     cout << endl;
     cout<<"Enter Choice: ";

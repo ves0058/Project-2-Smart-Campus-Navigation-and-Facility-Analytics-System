@@ -467,87 +467,95 @@ void CampusGraph::generateGraphStats()const{
 }
 
 
+
+
+
+//Final portion code!!!
+
+
 void CampusGraph::shortestPath(){
+
+
     if(names.empty()){
-        cout << "This graph is currently empty. please load graph data and try again!" << endl;
+        cout << "This graph is currently emty, please load graph data and try again!" << endl;
         return;
     }
 
-    cout << "Enter starting building name: ";
+    cout << "Enter starting building name --> ";
     string startInput;
     cin.ignore();
     getline(cin, startInput);
 
-    // Trim leading and trailing whitespace and '\r' for start building
-    int sStart = 0;
-    int sEnd = (int)startInput.size() - 1;
-    while (sStart < (int)startInput.size() && (isspace(startInput[sStart]) || startInput[sStart] == '\r')) {
-        sStart++;
+    // Trim leading and trailing whitespace for start building's name!
+    //Same logic as what we have used in BFS function!
+    int start = 0;
+    int end = (int)startInput.size() - 1;
+    while (start < (int)startInput.size() && (isspace(startInput[start]) || startInput[start] == '\r')) {
+        start++;
     }
-    while (sEnd >= sStart && (isspace(startInput[sEnd]) || startInput[sEnd] == '\r')) {
-        sEnd--;
+    while (end >= start && (isspace(startInput[end]) || startInput[end] == '\r')) {
+        end--;
     }
 
-    if (sStart > sEnd) {
-        cout << "!!!Error: Building name cannot be blank. please try again!!!" << endl;
+    if (start > end) {
+        cout << "Error: Building name cannot be blank. please try again!!!" << endl;
         return;
     }
-
     string startName = "";
-    for (int i = sStart; i <= sEnd; i++) {
+    for (int i = start; i <= end; i++) {
         startName += startInput[i];
     }
 
-    cout << "Enter destination building name: ";
+    cout << "Enter destination building name --> ";
     string destInput;
     getline(cin, destInput);
 
-    // Trim leading and trailing whitespace and '\r' for destination building
-    int dStart = 0;
-    int dEnd = (int)destInput.size() - 1;
-    while (dStart < (int)destInput.size() && (isspace(destInput[dStart]) || destInput[dStart] == '\r')) {
-        dStart++;
+    // Trim leading and trailing whitespace for destination building
+    int destiStart = 0;
+    int destiEnd = (int)destInput.size() - 1;
+    while (destiStart < (int)destInput.size() && (isspace(destInput[destiStart]) || destInput[destiStart] == '\r')) {
+        destiStart++;
     }
-    while (dEnd >= dStart && (isspace(destInput[dEnd]) || destInput[dEnd] == '\r')) {
-        dEnd--;
+    while (destiEnd >= destiStart && (isspace(destInput[destiEnd]) || destInput[destiEnd] == '\r')) {
+        destiEnd--;
     }
 
-    if (dStart > dEnd) {
-        cout << "!!!Error: Building name cannot be blank. please try again!!!" << endl;
+    if (destiStart > destiEnd) {
+        cout << "Error: Building name cannot be blank. please try again!!" << endl;
         return;
     }
 
     string destName = "";
-    for (int i = dStart; i <= dEnd; i++) {
+    for (int i = destiStart; i <= destiEnd; i++) {
         destName += destInput[i];
     }
 
-    // Validate both buildings using findNode
+    // Using findNode function to validate the given srcNode and destiNode!
     int srcNode = findNode(startName);
-    int destNode = findNode(destName);
+    int destiNode = findNode(destName);
 
-    if (srcNode == -1 || destNode == -1) {
-        if (srcNode == -1 && destNode != -1) {
-            cout << "!!!Node : " << startName << " Does not exist in the current Graph. please try again!!!" << endl;
-        } else if (srcNode != -1 && destNode == -1) {
-            cout << "!!!Node : " << destName << " Does not exist in the current Graph. please try again!!!" << endl;
+    if (srcNode == -1 || destiNode == -1) {
+        if (srcNode == -1 && destiNode != -1) {
+            cout << "Node : " << startName << " Does not exist in the current Graph. please try again" << endl;
+        } else if (srcNode != -1 && destiNode == -1) {
+            cout << "Node : " << destName << " Does not exist in the current Graph. please try again" << endl;
         } else {
-            cout << "!!!Nodes : " << startName << " and " << destName << " Do not exist in the current Graph. please try again!!!" << endl;
+            cout << "Nodes : " << startName << " and " << destName << " Do not exist in the current Graph. please try again!" << endl;
         }
         return;
     }
 
-    cout << "========== SHORTEST PATH (BFS) ==========\n";
+    cout << "========== SHORTEST PATH {BFS} ==========\n";
     cout << "+++++++++++++++++++++++++++++++++++++++++" << endl;
 
-    // Edge case: same start and destination building
-    if (srcNode == destNode) {
+    // Edge case will be  same start and destination building
+    if (srcNode == destiNode) {
         cout << names[srcNode] << endl;
-        cout << "Number of connections: 0" << endl;
+        cout << "Number of connections: 0 :(" << endl;
         return;
     }
 
-    vector<bool> status(names.size(), false);
+    vector<bool> status(names.size(), false);//status vector to keep track of Visited and not visited
     vector<int> parent(names.size(), -1);
     queue<int> que;
 
@@ -558,11 +566,11 @@ void CampusGraph::shortestPath(){
         int u = que.front();
         que.pop();
 
-        if (u == destNode) {
+        if (u == destiNode) {
             break;
         }
 
-        // Traverse neighbors in insertion order so ties follow neighbor order
+        // Traverse to the closest negiboor first!
         for (size_t i = 0; i < adjList[u].size(); i++) {
             int v = adjList[u][i];
 
@@ -574,21 +582,21 @@ void CampusGraph::shortestPath(){
         }
     }
 
-    // If destination was never reached
-    if (!status[destNode]) {
-        cout << "No path exists between " << names[srcNode] << " and " << names[destNode] << "." << endl;
+    // If Destination Node could never be reached!
+    if (!status[destiNode]) {
+        cout << "No path exists between " << names[srcNode] << " and " << names[destiNode] << "." << endl;
         return;
     }
 
-    // Reconstruct path from destination back to start using parent vector
+    // Re constructing path from destination back to start using parent vector
     vector<int> path;
-    int curr = destNode;
+    int curr = destiNode;
     while (curr != -1) {
         path.push_back(curr);
         curr = parent[curr];
     }
 
-    // Print one building per line from start to destination
+    // Print buildings in the order they were found!
     for (int i = (int)path.size() - 1; i >= 0; i--) {
         cout << names[path[i]] << endl;
     }
@@ -597,3 +605,99 @@ void CampusGraph::shortestPath(){
 
 
 
+// Option 17: Graph Connectivity Report 
+void CampusGraph::connectivityReport()const {
+
+    //if the Graph is empty! for some reason 
+    if (names.empty()) {
+        cout << "This graph is currently emty, please load graph data and try again!" << endl;
+        return;
+    }
+
+    int totalBuildings = (int)names.size();
+    int degreeSum = 0;
+    int maxDegree = 0;
+    vector<string> isolatedBuildings;
+
+    // Calculate degree sum -- max degree --  and isolated buildings!!!!
+    for (int i = 0; i < totalBuildings; i++) {
+        int deg = (int)adjList[i].size();
+        degreeSum += deg;
+
+        if (deg == 0) {
+            isolatedBuildings.push_back(names[i]);
+        }
+
+        if (deg > maxDegree) {
+            maxDegree = deg;
+        }
+    }
+
+    int totalConnections = degreeSum / 2;
+
+    // Loop through all buildings and save every building that has the maximum number of connections
+    // keeps them in the exact order they were loaded from the file, so we don't mess the data up
+    vector<string> highestDegreeBuildings;
+    for (int i = 0; i < totalBuildings; i++) {
+        if ((int)adjList[i].size() == maxDegree) {
+            highestDegreeBuildings.push_back(names[i]);
+        }
+    }
+
+    // Count connected buildings using  BF Search, same logic we used in 
+
+    vector<bool> status(names.size(), false);
+    int connectedComponents = 0;
+
+    for (int i = 0; i < totalBuildings; i++) {
+        if (!status[i]) {
+            connectedComponents++;
+            queue<int> que;
+            que.push(i);
+            status[i] = true;
+
+            while (!que.empty()) {
+                int u = que.front();
+                que.pop();
+
+                for (size_t j = 0; j < adjList[u].size(); j++) {
+                    int v = adjList[u][j];
+                    if (!status[v]) {
+                        status[v] = true;
+                        que.push(v);
+                    }
+                }
+            }
+        }
+    }
+
+    //The final Graph COnnectivity Report !! for option 17
+    cout << "========== GRAPH CONNECTIVITY REPORT ==========\n";
+    cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+    cout << "Total buildings: " << totalBuildings << endl;
+    cout << "Total connections: " << totalConnections << endl;
+    //if the building is isolated!
+    cout << "Isolated buildings: ";
+    if (isolatedBuildings.empty()) {
+        cout << "None" << endl;
+    } else {
+        for (size_t i = 0; i < isolatedBuildings.size(); i++) {
+            cout << isolatedBuildings[i];
+            if (i + 1 < isolatedBuildings.size()) {
+                cout << ", ";
+            }
+        }
+        cout << endl;
+    }
+    //Higest Degree
+    cout << "Highest degree (" << maxDegree << "): ";
+    for (size_t i = 0; i < highestDegreeBuildings.size(); i++) {
+        cout << highestDegreeBuildings[i];
+        if (i + 1 < highestDegreeBuildings.size()) {
+            cout << ", ";
+        }
+    }
+    cout << endl;
+    //Good connected Buildings!
+    cout << "Connected components: " << connectedComponents << endl;
+}

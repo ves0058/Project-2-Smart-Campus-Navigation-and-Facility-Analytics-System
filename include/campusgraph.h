@@ -27,7 +27,7 @@ class CampusGraph
 
     //Final 
     void shortestPath();//Finds the shortest path between two buildings using BFS
-    void connectivityReport() const;// Generates a connectivity report About graph!
+    void connectivityReport() const;// Generates a connectivity report About graph option 17!
     
 };
 #endif

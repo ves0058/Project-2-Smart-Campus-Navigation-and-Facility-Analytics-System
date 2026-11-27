@@ -6,29 +6,26 @@ int main()
 {
     Manager manager;
     CampusGraph graph;
-    DepartmentTree department; 
-
-
+    DepartmentTree department;
 
     string loadgraphbuildings = "data/buildings.txt";
     string loadgraphconnections = "data/connections.txt";
-    //string Departmentsfile = "data/departments.txt";
+    // string Departmentsfile = "data/departments.txt";
     string BuildingsFile = "data/buildings.txt";
     string FacilitiesFile = "data/facilities.txt";
-	department.loadFromFile();
-    
+    department.loadFromFile();
+
     graph.loadBuildings(loadgraphbuildings);
     graph.loadConnections(loadgraphconnections);
     manager.loadBuildingsFromFile(BuildingsFile);
     manager.loadFacilitiesFromFile(FacilitiesFile);
-    
+
     manager.printHeader();
 
     // string BuildingsFile = "data/buildings.txt";
     // string FacilitiesFile = "data/facilities.txt";
 
     // test malformed data
-
 
     // FIXME: add your files and implementations...
 
@@ -46,40 +43,48 @@ int main()
 
             switch (choice)
             {
-                case 1:
-                    manager.viewFacilities();
-                    break;
-                case 2:
-                    manager.searchFacility();
-                    break;
-                case 3:
-                    graph.viewBuildingsandConnection();
-                    break;
-                case 4:
-                    graph.generateGraphStats();
-                    break;
-                case 5:
-                    graph.bfs();
-                    break;
-				case 6:
-					department.addDepartment();
-					break;
-				case 7:
-					department.searchDepartment();
-					break;
-				case 8:
-					department.displayHierarchy();
-					break;
-				case 9:
-					department.preorderTraversal();
-					break;
-                case 10:
-                    cout << "Thank you for using \"Smart Campus Navigation and Facility Analytics System\"!" << endl;
-                    return 0;
-                default:
-                    cout << "Wrong choice! try again." << endl;
-                    cout << endl;
-                    break;
+            case 1:
+                manager.viewFacilities();
+                break;
+            case 2:
+                manager.searchFacility();
+                break;
+            case 3:
+                graph.viewBuildingsandConnection();
+                break;
+            case 4:
+                graph.generateGraphStats();
+                break;
+            case 5:
+                graph.bfs();
+                break;
+            case 6:
+                department.addDepartment();
+                break;
+            case 7:
+                department.searchDepartment();
+                break;
+            // case 8:
+            // department.displayHierarchy();
+            // break;
+            case 9:
+                department.preorderTraversal();
+                break;
+            case 10:
+                cout << "Thank you for using \"Smart Campus Navigation and Facility Analytics System\"!" << endl;
+                return 0;
+            case 8:
+                graph.shortestPath();
+                break;
+
+            case 17:
+                graph.connectivityReport();
+                break;
+
+            default:
+                cout << "Wrong choice! try again." << endl;
+                cout << endl;
+                break;
             }
         }
         else
