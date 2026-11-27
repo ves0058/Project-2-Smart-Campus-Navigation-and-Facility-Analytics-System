@@ -8,26 +8,29 @@
 using namespace std;
 // This structure represents one department.
 struct DepartmentNode {
-    string name;
-    DepartmentNode* parent;
-    vector<DepartmentNode*> children;
+    string name; // Stores the department names
+    DepartmentNode* parent; // Points to the parent department
+    vector<DepartmentNode*> children; // Stores the child departments
 };
-// This manages the department general tree.
+// This class manages the department general tree.
 class DepartmentTree {
 private:
-    DepartmentNode* root;
+    DepartmentNode* root; // This points to the first department
 public:
     DepartmentTree();
     ~DepartmentTree();
 
-    bool isEmpty() const;
+    bool isEmpty() const; // This checks if the tree is empty 
 
-    void loadFromFile();
-    void addDepartment();
-    void searchDepartment();
-    void displayHierarchy();
-    void preorderTraversal();
+    void loadFromFile(); // Loads departments from the files provided
+    void addDepartment(); // Adds a new department
+    void searchDepartment(); // Searches for a department
+    void displayHierarchy(); // Displays the department hierarchy
+    void preorderTraversal(); // Displays the departments using preorder traversal
+
+    void postorderTraversal(); // Displays postorder traversal
+    void levelOrderTraversal(); // Displays level order traversal
+    void departmentStatistics(); // Displays department statistics
 };
 
 #endif
-
