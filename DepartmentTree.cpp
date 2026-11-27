@@ -4,6 +4,8 @@
 #include <sstream>
 #include <stack>
 #include <utility>
+#include <limits>
+#include <queue>
 
 DepartmentTree::DepartmentTree() {
     root = nullptr;
@@ -404,4 +406,104 @@ void DepartmentTree::preorderTraversal() {
             nodes.push(current->children[i]);
         }
     }
+}
+// This function displays departments using postorder traversal
+void DepartmentTree::postorderTraversal() {
+    if (root == nullptr) {
+        cout << "No departments are loaded.\n";
+        return;
+    }
+    // Uses two stacks to perform postorder traversal
+    stack<DepartmentNode*> nodes;
+    stack<DepartmentNode*> result;
+
+    nodes.push(root);
+    while (!nodes.empty()) {
+        DepartmentNode* current = nodes.top();
+        nodes.pop();
+
+        result.push(current);
+        // Adds children in insertion order
+        for (size_t i = 0; i < current->children.size(); i++) {
+            nodes.push(current->children[i]);
+        }
+    }
+    cout << "\nPostorder Traversal:\n";
+    // Displays the departments in postorder
+    while (!result.empty()) {
+        cout << result.top()->name << "\n";
+        result.pop();
+    }
+}
+// This function displays departments using level order traversal
+void DepartmentTree::levelOrderTraversal() {
+    if (root == nullptr) {
+        cout << "No departments are loaded.\n";
+        return;
+    }
+    // Uses a queue to visit departments one level at a time
+    queue<DepartmentNode*> nodes;
+
+    nodes.push(root);
+
+    cout << "\nLevel-Order Traversal:\n";
+
+    while (!nodes.empty()) {
+        DepartmentNode* current = nodes.front();
+        nodes.pop();
+        // Displays the current department
+        cout << current->name << "\n";
+        // Adds children in insertion order
+        for (size_t i = 0; i < current->children.size(); i++) {
+            nodes.push(current->children[i]);
+        }
+    }
+}
+// This function displays statistics about the department tree
+void DepartmentTree::departmentStatistics() {
+    // Checks if the tree is empty
+    if (root == nullptr) {
+        cout << "\nDepartment Statistics:\n";
+        cout << "Total departments: 0\n";
+        cout << "Number of leaves: 0\n";
+        cout << "Tree height: N/A\n";
+        return;
+    }
+    int totalDepartments = 0;
+    int leaves = 0;
+    int height = 0;
+    // Stores each department and its depth
+    stack<pair<DepartmentNode*, int> > nodes;
+
+    nodes.push(make_pair(root, 0));
+
+    while (!nodes.empty()) {
+        pair<DepartmentNode*, int> current = nodes.top();
+        nodes.pop();
+
+        DepartmentNode* currentNode = current.first;
+        int currentDepth = current.second;
+        // Counts the current department
+        totalDepartments++;
+        // Checks if the department has no children
+        if (currentNode->children.empty()) {
+            leaves++;
+        }
+        // Updates the height if this department is deeper
+        if (currentDepth > height) {
+            height = currentDepth;
+        }
+        // Adds children with their depth increased by one
+        for (size_t i = 0; i < currentNode->children.size(); i++) {
+            nodes.push(make_pair(
+                currentNode->children[i],
+                currentDepth + 1
+            ));
+        }
+    }
+    // Displays the department statistics
+    cout << "\nDepartment Statistics:\n";
+    cout << "Total departments: " << totalDepartments << "\n";
+    cout << "Number of leaves: " << leaves << "\n";
+    cout << "Tree height: " << height << "\n";
 }
